@@ -77,8 +77,10 @@ dotnet test
 
 测试使用 xUnit，测试项目位于 `tests/` 目录下。
 
-## 参考学习
+## 文档与参考
 
+- [开发规划](docs/development-plan.md) — 完整项目规划、分阶段里程碑、目录结构、架构决策
+- [原版架构知识库](docs/knowledge/README.md) — 12 篇原版代码分析 + GFramework 模板分析 + 架构设计
 - 原版源码：[00-Evan/shattered-pixel-dungeon](https://github.com/00-Evan/shattered-pixel-dungeon)（本地镜像：`E:\project\GitHub\shattered-pixel-dungeon`）
 - 原版文档：[Shattered Pixel Dungeon 官方博客](https://www.shatteredpixel.com/blog/)
 
