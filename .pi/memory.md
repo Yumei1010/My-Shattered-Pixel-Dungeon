@@ -131,3 +131,10 @@ scripts/
 - 全量复刻原版素材（452 文件，38MB）到 assets/（sprites/environment/interfaces/effects/music/sounds/splashes/fonts/messages）
 - 添加 GPLv3 许可声明：assets/GPL-3.0-LICENSE.txt + assets/README.md
 - README 更新：项目定位（复刻+战旗模板）、双许可证说明（源码 Apache 2.0 / 素材 GPLv3）
+
+## 已完成 (completed)
+- 提交历史重排：5 个提交 → 3 个干净原子提交（chore(project) + chore(assets) + docs(readme)）
+- 素材 .import 文件（240 个，含 uid:// 标识符）已纳入版本控制
+- .gitignore 增加 .pi/changes.json 忽略规则
+- 删除 Godot 生成的 csproj.old 备份文件
+- Force push 更新远程仓库
