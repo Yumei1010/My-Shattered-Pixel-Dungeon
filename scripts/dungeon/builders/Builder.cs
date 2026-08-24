@@ -88,7 +88,7 @@ public abstract class Builder
                 else if (closestRoom.Bottom <= start.Y) hDiff = (closestRoom.Bottom - space.Top) * (space.Width + 1);
 
                 // 尽可能减少空间以解决碰撞
-                if (wDiff < hDiff || (wDiff == hDiff && System.Random.Shared.Next(2) == 0))
+                if (wDiff < hDiff || (wDiff == hDiff && DeterministicRng.Range(2) == 0))
                 {
                     if (closestRoom.Left >= start.X && closestRoom.Left < space.Right) space.Right = closestRoom.Left;
                     if (closestRoom.Right <= start.X && closestRoom.Right > space.Left) space.Left = closestRoom.Right;

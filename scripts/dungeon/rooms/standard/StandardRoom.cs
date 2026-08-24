@@ -87,7 +87,7 @@ public abstract class StandardRoom : Room
     {
         float total = probs.Sum();
         if (total <= 0) return -1;
-        float roll = (float)System.Random.Shared.NextDouble() * total;
+        float roll = (float)(double)DeterministicRng.Float() * total;
         float cumulative = 0;
         for (int i = 0; i < probs.Length; i++)
         {

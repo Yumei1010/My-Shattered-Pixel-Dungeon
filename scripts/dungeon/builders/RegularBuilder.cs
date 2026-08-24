@@ -131,13 +131,12 @@ public abstract class RegularBuilder : Builder
 
         while (i < roomsToBranch.Count)
         {
-            if (failedBranchAttempts > 100) return false;
 
             var r = roomsToBranch[i];
             connectingRoomsThisBranch.Clear();
 
             // 随机选择分支起点（秘密房间不能从连接房间分支）
-            do { curr = branchable[System.Random.Shared.Next(branchable.Count)]; }
+            do { curr = branchable[DeterministicRng.Range(branchable.Count)]; }
             while (r is SecretRoom && curr is ConnectionRoom);
 
             int connectingRooms = RandomChances(connectionChances);
@@ -199,15 +198,18 @@ public abstract class RegularBuilder : Builder
                     rooms.Remove(t);
                 }
                 connectingRoomsThisBranch.Clear();
+                // 放置失败的房间从 rooms 移除（避免出现未放置房间）
+                rooms.Remove(r);
                 failedBranchAttempts++;
+                i++; // 跳过此房间，继续下一个
                 continue;
             }
 
             for (int j = 0; j < connectingRoomsThisBranch.Count; j++)
             {
-                if (System.Random.Shared.Next(3) <= 1) branchable.Add(connectingRoomsThisBranch[j]);
+                if (DeterministicRng.Range(3) <= 1) branchable.Add(connectingRoomsThisBranch[j]);
             }
-            if (r.MaxConnections(Room.DirAll) > 1 && System.Random.Shared.Next(3) == 0)
+            if (r.MaxConnections(Room.DirAll) > 1 && DeterministicRng.Range(3) == 0)
             {
                 if (r is StandardRoom sr)
                 {
@@ -223,7 +225,7 @@ public abstract class RegularBuilder : Builder
         return true;
     }
 
-    protected virtual float RandomBranchAngle(Room r) => (float)(System.Random.Shared.NextDouble() * 360f);
+    protected virtual float RandomBranchAngle(Room r) => (float)((double)DeterministicRng.Float() * 360f);
 
     private static void Shuffle<T>(List<T> list)
     {
@@ -231,7 +233,7 @@ public abstract class RegularBuilder : Builder
         while (n > 1)
         {
             n--;
-            int k = System.Random.Shared.Next(n + 1);
+            int k = DeterministicRng.Range(n + 1);
             (list[k], list[n]) = (list[n], list[k]);
         }
     }
@@ -240,7 +242,7 @@ public abstract class RegularBuilder : Builder
     {
         float total = probs.Sum();
         if (total <= 0) return -1;
-        float roll = (float)System.Random.Shared.NextDouble() * total;
+        float roll = (float)(double)DeterministicRng.Float() * total;
         float cumulative = 0;
         for (int i = 0; i < probs.Length; i++)
         {

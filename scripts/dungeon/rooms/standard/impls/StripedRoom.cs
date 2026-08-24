@@ -16,7 +16,7 @@ public sealed class StripedRoom : StandardRoom
         Painter.Fill(data, this, 1, Terrain.Empty);
 
         // 绘制交替条纹（水平或垂直）
-        bool horizontal = System.Random.Shared.Next(2) == 0;
+        bool horizontal = DeterministicRng.Range(2) == 0;
 
         if (horizontal)
         {

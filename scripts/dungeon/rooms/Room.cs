@@ -93,7 +93,7 @@ public abstract class Room : Rect
         if (minW < MinWidth() || maxW > MaxWidth() || minH < MinHeight() || maxH > MaxHeight() || minW > maxW || minH > maxH)
             return false;
         // 减 1 因为房间的 right/bottom 是包含边界（Rect.Resize 是独占语义）
-        Resize(System.Random.Shared.Next(minW, maxW + 1) - 1, System.Random.Shared.Next(minH, maxH + 1) - 1);
+        Resize(DeterministicRng.Range(minW, maxW + 1) - 1, DeterministicRng.Range(minH, maxH + 1) - 1);
         return true;
     }
 
@@ -111,15 +111,15 @@ public abstract class Room : Rect
 
     public Point Random(int m = 1)
     {
-        return new Point(System.Random.Shared.Next(Left + m, Right - m + 1), System.Random.Shared.Next(Top + m, Bottom - m + 1));
+        return new Point(DeterministicRng.Range(Left + m, Right - m + 1), DeterministicRng.Range(Top + m, Bottom - m + 1));
     }
 
     public new bool Contains(Point p) => p.X > Left && p.Y > Top && p.X < Right && p.Y < Bottom;
 
     public Point Center()
     {
-        int cx = (Left + Right) / 2 + ((Right - Left) % 2 == 1 ? System.Random.Shared.Next(2) : 0);
-        int cy = (Top + Bottom) / 2 + ((Bottom - Top) % 2 == 1 ? System.Random.Shared.Next(2) : 0);
+        int cx = (Left + Right) / 2 + ((Right - Left) % 2 == 1 ? DeterministicRng.Range(2) : 0);
+        int cy = (Top + Bottom) / 2 + ((Bottom - Top) % 2 == 1 ? DeterministicRng.Range(2) : 0);
         return new Point(cx, cy);
     }
 

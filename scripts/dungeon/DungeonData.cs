@@ -36,6 +36,27 @@ public sealed class DungeonData
     /// <summary>门的列表（key = 门位置 cell）</summary>
     public Dictionary<int, Door> Doors { get; set; } = new();
 
+    /// <summary>可通过标志数组</summary>
+    public bool[] Passable { get; set; } = Array.Empty<bool>();
+
+    /// <summary>阻挡视线标志数组</summary>
+    public bool[] LosBlocking { get; set; } = Array.Empty<bool>();
+
+    /// <summary>固体标志数组</summary>
+    public bool[] Solid { get; set; } = Array.Empty<bool>();
+
+    /// <summary>可燃标志数组</summary>
+    public bool[] Flammable { get; set; } = Array.Empty<bool>();
+
+    /// <summary>回避标志数组</summary>
+    public bool[] Avoid { get; set; } = Array.Empty<bool>();
+
+    /// <summary>水标志数组</summary>
+    public bool[] Water { get; set; } = Array.Empty<bool>();
+
+    /// <summary>深坑标志数组</summary>
+    public bool[] Pit { get; set; } = Array.Empty<bool>();
+
     /// <summary>
     ///     单元格 → 坐标
     /// </summary>

@@ -16,10 +16,10 @@ public sealed class StudyRoom : StandardRoom
         Painter.Fill(data, this, 1, Terrain.Empty);
 
         // 在墙壁内沿放置书架（随机选 1-2 面墙）
-        bool topBookshelf = System.Random.Shared.Next(2) == 0;
-        bool bottomBookshelf = System.Random.Shared.Next(2) == 0;
-        bool leftBookshelf = System.Random.Shared.Next(2) == 0;
-        bool rightBookshelf = System.Random.Shared.Next(2) == 0;
+        bool topBookshelf = DeterministicRng.Range(2) == 0;
+        bool bottomBookshelf = DeterministicRng.Range(2) == 0;
+        bool leftBookshelf = DeterministicRng.Range(2) == 0;
+        bool rightBookshelf = DeterministicRng.Range(2) == 0;
 
         // 至少有一面墙有书架
         if (!topBookshelf && !bottomBookshelf && !leftBookshelf && !rightBookshelf)

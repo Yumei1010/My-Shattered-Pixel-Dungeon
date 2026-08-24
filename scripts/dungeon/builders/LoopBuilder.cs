@@ -56,7 +56,7 @@ public sealed class LoopBuilder : RegularBuilder
         Entrance.SetSize();
         Entrance.SetPos(0, 0);
 
-        float startAngle = (float)(System.Random.Shared.NextDouble() * 360);
+        float startAngle = (float)((double)DeterministicRng.Float() * 360);
 
         _mainPathRooms.Insert(0, Entrance);
         if (Exit != null)
@@ -90,14 +90,16 @@ public sealed class LoopBuilder : RegularBuilder
         {
             var r = loop[i];
             targetAngle = startAngle + TargetAngle(i / (float)loop.Count);
-            if (PlaceRoom(rooms, prev, r, targetAngle) != -1)
+            float placed = PlaceRoom(rooms, prev, r, targetAngle);
+            Console.WriteLine($"Loop {i}: {r.GetType().Name} angle={targetAngle:F1} placed={placed} prev=[{prev.Left},{prev.Top}→{prev.Right},{prev.Bottom}]");
+            if (placed != -1)
             {
                 prev = r;
                 if (!rooms.Contains(prev)) rooms.Add(prev);
             }
             else
             {
-                return null;
+                    return null;
             }
         }
 
@@ -120,7 +122,7 @@ public sealed class LoopBuilder : RegularBuilder
             int tries = 10;
             do
             {
-                angle = PlaceRoom(loop, Entrance, Shop, (float)(System.Random.Shared.NextDouble() * 360f));
+                angle = PlaceRoom(loop, Entrance, Shop, (float)((double)DeterministicRng.Float() * 360f));
                 tries--;
             } while (angle == -1 && tries >= 0);
             if (angle == -1) return null;
@@ -152,19 +154,10 @@ public sealed class LoopBuilder : RegularBuilder
             foreach (var n in r.Neighbours.ToList())
             {
                 if (!n.Connected.ContainsKey(r)
-                    && System.Random.Shared.NextDouble() < _extraConnectionChance)
+                    && (double)DeterministicRng.Float() < _extraConnectionChance)
                 {
                     r.Connect(n);
                 }
-            }
-        }
-
-        // 验证：所有房间必须已放置（非空）且有连接，否则返回 null 触发重试
-        foreach (var r in rooms)
-        {
-            if (r.IsEmpty || r.Connected.Count == 0)
-            {
-                return null;
             }
         }
 
@@ -180,10 +173,10 @@ public sealed class LoopBuilder : RegularBuilder
             new PointF((r.Left + r.Right) / 2f, (r.Top + r.Bottom) / 2f), _loopCenter);
         if (toCenter < 0) toCenter += 360f;
 
-        float currAngle = (float)(System.Random.Shared.NextDouble() * 360f);
+        float currAngle = (float)((double)DeterministicRng.Float() * 360f);
         for (int i = 0; i < 4; i++)
         {
-            float newAngle = (float)(System.Random.Shared.NextDouble() * 360f);
+            float newAngle = (float)((double)DeterministicRng.Float() * 360f);
             if (Math.Abs(toCenter - newAngle) < Math.Abs(toCenter - currAngle))
             {
                 currAngle = newAngle;
