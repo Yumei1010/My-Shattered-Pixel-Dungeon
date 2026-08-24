@@ -55,6 +55,39 @@ public abstract class Room : Rect
         return SetSize(w, w, h, h);
     }
 
+    /// <summary>
+    ///     设置尺寸并受限于最大可用空间
+    /// </summary>
+    public bool SetSizeWithLimit(int w, int h)
+    {
+        if (w < MinWidth() || h < MinHeight()) return false;
+        SetSize();
+        if (Width > w || Height > h)
+        {
+            Resize(Math.Min(Width, w) - 1, Math.Min(Height, h) - 1);
+        }
+        return true;
+    }
+
+    /// <summary>
+    ///     将房间置空（所有边界归零）
+    /// </summary>
+    public Room SetEmpty()
+    {
+        Left = Top = Right = Bottom = 0;
+        return this;
+    }
+
+    /// <summary>
+    ///     设置房间位置（保持宽高不变）
+    /// </summary>
+    public Room SetPos(int x, int y)
+    {
+        int w = Right - Left, h = Bottom - Top;
+        Set(x, y, x + w, y + h);
+        return this;
+    }
+
     protected bool SetSize(int minW, int maxW, int minH, int maxH)
     {
         if (minW < MinWidth() || maxW > MaxWidth() || minH < MinHeight() || maxH > MaxHeight() || minW > maxW || minH > maxH)
