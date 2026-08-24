@@ -17,6 +17,8 @@
 | [08-ui-system.md](08-ui-system.md) | UI 组件、场景、窗口系统 | 清单 | ⭐⭐⭐ |
 | [09-rooms.md](09-rooms.md) | 房间变体清单（Standard/Special/Secret） | 清单 | ⭐⭐⭐ |
 | [10-quick-reference.md](10-quick-reference.md) | 快速参考（常量、枚举、关键数值） | 速查 | ⭐⭐⭐⭐ |
+| [11-gframework-template.md](11-gframework-template.md) | GFramework 框架模板完整分析（API/模块/规范） | 完整 | ⭐⭐⭐⭐⭐ |
+| [12-gframework-mapping.md](12-gframework-mapping.md) | 原版 → GFramework 映射设计（核心蓝图） | 设计 | ⭐⭐⭐⭐⭐ |
 
 ## 核心文件行数
 
