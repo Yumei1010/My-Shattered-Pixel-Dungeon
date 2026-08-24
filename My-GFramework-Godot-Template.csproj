@@ -1,0 +1,64 @@
+<Project Sdk="Godot.NET.Sdk/4.6.0">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net9.0</TargetFramework>
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <RootNamespace>GFrameworkTemplate</RootNamespace>
+        <Nullable>enable</Nullable>
+        <LangVersion>preview</LangVersion>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <NoWarn>CS0628;CS8785;CS8601;CS8602;CS0169;MA0011;MA0016</NoWarn>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Remove="script_templates\**" />
+        <Compile Remove="scripts\core\ui\UiFactory.cs" />
+        <Compile Remove="scenes\**" />
+        <Compile Remove="tests\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Remove="script_templates\**" />
+        <EmbeddedResource Remove="scenes\**" />
+        <EmbeddedResource Remove="tests\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Update="Meziantou.Analyzer" Version="2.0.298">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Update="Meziantou.Polyfill" Version="1.0.104">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="GeWuYou.GFramework" Version="0.0.177" />
+        <PackageReference Include="GeWuYou.GFramework.Godot" Version="0.0.177" />
+        <PackageReference Include="GeWuYou.GFramework.Godot.SourceGenerators" Version="0.0.177" />
+        <PackageReference Include="GeWuYou.GFramework.SourceGenerators" Version="0.0.177" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include=".github\workflows\auto-tag.yml" />
+        <Content Include=".github\workflows\ci.yml" />
+        <Content Include=".github\workflows\codeql.yml" />
+        <Content Include=".github\workflows\release.yml" />
+        <Content Include="addons.jsonc" />
+        <Content Include="global\README.md" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="scripts\component\" />
+        <Folder Include="scripts\cqrs\audio\command\" />
+        <Folder Include="scripts\cqrs\audio\command\input\" />
+        <Folder Include="scripts\cqrs\game\command\" />
+        <Folder Include="scripts\cqrs\graphics\" />
+        <Folder Include="scripts\cqrs\graphics\input\" />
+        <Folder Include="scripts\cqrs\setting\command\" />
+        <Folder Include="scripts\cqrs\setting\command\input\" />
+        <Folder Include="scripts\cqrs\setting\query\" />
+        <Folder Include="scripts\cqrs\setting\query\result\" />
+        <Folder Include="scripts\data\setting\" />
+        <Folder Include="scripts\enums\input\" />
+        <Folder Include="scripts\enums\resources\" />
+        <Folder Include="scripts\enums\scene\" />
+        <Folder Include="scripts\enums\ui\" />
+        <Folder Include="scripts\module\" />
+        <Folder Include="scripts\utility\" />
+    </ItemGroup>
+</Project>

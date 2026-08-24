@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://xrpqu75op8i6"]
+
+[ext_resource type="Script" uid="uid://7tmuhvthtrnh" path="res://global/GameEntryPoint.cs" id="1_a14y6"]
+[ext_resource type="PackedScene" uid="uid://6s2urcdmkpbt" path="res://scenes/main.tscn" id="2_main"]
+[ext_resource type="Script" uid="uid://5mfgbvaive07" path="res://scripts/core/resource/SceneConfig.cs" id="3_scfg"]
+
+[sub_resource type="Resource" id="Resource_main_scene"]
+script = ExtResource("3_scfg")
+Scene = ExtResource("2_main")
+metadata/_custom_type_script = "uid://5mfgbvaive07"
+
+[node name="GameEntryPoint" type="Node" unique_id=729277825]
+script = ExtResource("1_a14y6")
+UiPageConfigs = Array[Object]([])
+GameSceneConfigs = Array[Object]([SubResource("Resource_main_scene")])
+TextureConfigs = Array[Object]([])

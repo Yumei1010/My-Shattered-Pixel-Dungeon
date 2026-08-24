@@ -1,0 +1,55 @@
+name: Auto Increment Version and Tag
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  auto-tag:
+    name: Auto Increment Version and Create Tag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          lfs: true
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Get next version
+        id: get_next_version
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          VERSION_NUM=${LATEST_TAG#v}
+          MAJOR=$(echo $VERSION_NUM | cut -d. -f1)
+          MINOR=$(echo $VERSION_NUM | cut -d. -f2)
+          PATCH=$(echo $VERSION_NUM | cut -d. -f3)
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          NEW_TAG="v$NEW_VERSION"
+          echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
+
+      - name: Create tag and push
+        env:
+          PAT: ${{ secrets.PAT_TOKEN }}
+          REPO: ${{ github.repository }}
+          NEW_TAG: ${{ steps.get_next_version.outputs.new_tag }}
+        run: |
+          if [ -z "$PAT" ]; then
+            echo "PAT_TOKEN not configured — skipping tag creation."
+            echo "Next version would be: $NEW_TAG"
+            exit 0
+          fi
+          set -e
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          echo "Creating annotated tag $NEW_TAG"
+          git tag -a "$NEW_TAG" -m "Auto-generated tag: $NEW_TAG"
+          git push "https://x-access-token:${PAT}@github.com/${REPO}.git" "refs/tags/${NEW_TAG}"
+          echo "Previous tag: ${{ steps.get_next_version.outputs.latest_tag }}"
+          echo "New tag:     $NEW_TAG"
