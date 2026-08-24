@@ -1,4 +1,4 @@
-namespace GFrameworkTemplate.scripts.enums.ui;
+namespace MyShatteredPixelDungeon.scripts.enums.ui;
 
 /// <summary>
 ///     定义 UI 页面键值枚举，用于标识不同的 UI 面板

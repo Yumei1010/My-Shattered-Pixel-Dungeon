@@ -1,6 +1,6 @@
-using GFrameworkTemplate.scripts.enums.ui;
+using MyShatteredPixelDungeon.scripts.enums.ui;
 
-namespace GFrameworkTemplate.scripts.menu;
+namespace MyShatteredPixelDungeon.scripts.menu;
 
 public partial class TemplatePage
 {

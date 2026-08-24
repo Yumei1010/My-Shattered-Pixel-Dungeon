@@ -2,9 +2,9 @@
 using GFramework.Core.query;
 using GFramework.Game.Abstractions.setting;
 using GFramework.Game.Abstractions.setting.data;
-using GFrameworkTemplate.scripts.cqrs.setting.query.result;
+using MyShatteredPixelDungeon.scripts.cqrs.setting.query.result;
 
-namespace GFrameworkTemplate.scripts.cqrs.setting.query;
+namespace MyShatteredPixelDungeon.scripts.cqrs.setting.query;
 
 /// <summary>
 ///     获取当前设置的查询类

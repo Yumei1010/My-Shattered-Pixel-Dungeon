@@ -4,10 +4,10 @@ using GFramework.Game.Abstractions.ui;
 using GFramework.Godot.ui;
 using GFramework.SourceGenerators.Abstractions.logging;
 using GFramework.SourceGenerators.Abstractions.rule;
-using GFrameworkTemplate.scripts.core.ui;
+using MyShatteredPixelDungeon.scripts.core.ui;
 using Godot;
 
-namespace GFrameworkTemplate.scripts.menu;
+namespace MyShatteredPixelDungeon.scripts.menu;
 
 /// <summary>
 ///     模板页面——演示 UI 页面的 partial class 五文件模式

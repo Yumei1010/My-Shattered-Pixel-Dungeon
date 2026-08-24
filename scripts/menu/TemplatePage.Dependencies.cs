@@ -1,9 +1,9 @@
 using GFramework.Core.extensions;
 using GFramework.Game.Abstractions.ui;
-using GFrameworkTemplate.global;
+using MyShatteredPixelDungeon.global;
 using Godot;
 
-namespace GFrameworkTemplate.scripts.menu;
+namespace MyShatteredPixelDungeon.scripts.menu;
 
 public partial class TemplatePage
 {

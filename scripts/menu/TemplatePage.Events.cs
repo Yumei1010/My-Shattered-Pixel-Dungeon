@@ -1,4 +1,4 @@
-namespace GFrameworkTemplate.scripts.menu;
+namespace MyShatteredPixelDungeon.scripts.menu;
 
 public partial class TemplatePage
 {

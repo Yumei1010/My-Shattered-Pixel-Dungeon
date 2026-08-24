@@ -3,9 +3,9 @@ using GFramework.Core.extensions;
 using GFramework.Game.Abstractions.setting;
 using GFramework.Game.Abstractions.setting.data;
 using GFramework.Godot.setting;
-using GFrameworkTemplate.scripts.cqrs.graphics.input;
+using MyShatteredPixelDungeon.scripts.cqrs.graphics.input;
 
-namespace GFrameworkTemplate.scripts.cqrs.graphics.command;
+namespace MyShatteredPixelDungeon.scripts.cqrs.graphics.command;
 
 /// <summary>
 ///     切换全屏模式命令类

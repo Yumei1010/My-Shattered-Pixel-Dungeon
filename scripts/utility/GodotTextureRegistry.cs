@@ -1,7 +1,7 @@
 ﻿using GFramework.Core.Abstractions.registries;
 using Godot;
 
-namespace GFrameworkTemplate.scripts.utility;
+namespace MyShatteredPixelDungeon.scripts.utility;
 
 /// <summary>
 /// GodotTextureRegistry 类继承自 KeyValueRegistryBase 并实现 IGodotTextureRegistry 接口。

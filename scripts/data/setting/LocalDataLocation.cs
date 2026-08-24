@@ -1,7 +1,7 @@
 using GFramework.Game.Abstractions.data;
 using GFramework.Game.Abstractions.enums;
 
-namespace GFrameworkTemplate.scripts.data.setting;
+namespace MyShatteredPixelDungeon.scripts.data.setting;
 
 public sealed record LocalDataLocation : IDataLocation
 {

@@ -1,6 +1,6 @@
 ﻿using GFramework.Core.Abstractions.command;
 
-namespace GFrameworkTemplate.scripts.cqrs.graphics.input;
+namespace MyShatteredPixelDungeon.scripts.cqrs.graphics.input;
 
 /// <summary>
 ///     切换全屏命令输入类

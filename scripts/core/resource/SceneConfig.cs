@@ -1,8 +1,8 @@
 ﻿using GFramework.Core.Abstractions.bases;
-using GFrameworkTemplate.scripts.enums.scene;
+using MyShatteredPixelDungeon.scripts.enums.scene;
 using Godot;
 
-namespace GFrameworkTemplate.scripts.core.resource;
+namespace MyShatteredPixelDungeon.scripts.core.resource;
 
 /// <summary>
 ///     游戏场景配置资源类，用于存储游戏场景的键值和对应的场景资源

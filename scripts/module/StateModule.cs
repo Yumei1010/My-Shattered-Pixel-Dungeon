@@ -2,9 +2,9 @@ using GFramework.Core.Abstractions.architecture;
 using GFramework.Core.functional.pipe;
 using GFramework.Game.architecture;
 using GFramework.Game.state;
-using GFrameworkTemplate.scripts.core.state.impls;
+using MyShatteredPixelDungeon.scripts.core.state.impls;
 
-namespace GFrameworkTemplate.scripts.module;
+namespace MyShatteredPixelDungeon.scripts.module;
 
 /// <summary>
 ///     状态模块类，负责安装和注册应用状态机及状态

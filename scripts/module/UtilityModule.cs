@@ -6,10 +6,10 @@ using GFramework.Game.serializer;
 using GFramework.Godot.scene;
 using GFramework.Godot.storage;
 using GFramework.Godot.ui;
-using GFrameworkTemplate.scripts.utility;
+using MyShatteredPixelDungeon.scripts.utility;
 using Godot;
 
-namespace GFrameworkTemplate.scripts.module;
+namespace MyShatteredPixelDungeon.scripts.module;
 
 /// <summary>
 ///     工具模块类，负责安装和管理框架中的实用工具组件

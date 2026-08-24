@@ -1,6 +1,6 @@
 ﻿using GFramework.Core.Abstractions.utility;
 
-namespace GFrameworkTemplate.scripts.utility;
+namespace MyShatteredPixelDungeon.scripts.utility;
 
 /// <summary>
 /// 存储读取工具接口，定义从存储系统读取数据的基本操作

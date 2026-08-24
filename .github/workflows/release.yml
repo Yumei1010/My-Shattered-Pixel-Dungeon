@@ -18,8 +18,8 @@ permissions:
 # 定义环境变量供后续步骤使用
 env:
   GODOT_VERSION: 4.6               # 指定使用的 Godot 版本
-  SOLN: My-GFramework-Godot-Template
-  EXPORT_NAME: MyGFrameworkGodotTemplate
+  SOLN: My-Shattered-Pixel-Dungeon
+  EXPORT_NAME: MyShatteredPixelDungeon
 
 # 工作流中的任务定义部分
 jobs:

@@ -3,7 +3,7 @@ using GFramework.SourceGenerators.Abstractions.logging;
 using GFramework.SourceGenerators.Abstractions.rule;
 using Godot;
 
-namespace GFrameworkTemplate.scripts.component.volume_container;
+namespace MyShatteredPixelDungeon.scripts.component.volume_container;
 
 /// <summary>
 ///     音量控制容器抽象类，提供音量滑块、标签和数值显示功能

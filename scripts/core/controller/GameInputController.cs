@@ -1,10 +1,10 @@
 ﻿using GFramework.Core.Abstractions.controller;
 using GFramework.SourceGenerators.Abstractions.logging;
 using GFramework.SourceGenerators.Abstractions.rule;
-using GFrameworkTemplate.scripts.enums.input;
+using MyShatteredPixelDungeon.scripts.enums.input;
 using Godot;
 
-namespace GFrameworkTemplate.scripts.core.controller;
+namespace MyShatteredPixelDungeon.scripts.core.controller;
 
 /// <summary>
 ///     游戏输入控制器抽象基类，继承自Node并实现IController接口

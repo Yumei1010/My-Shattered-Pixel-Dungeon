@@ -1,7 +1,7 @@
 ﻿using GFramework.Core.environment;
-using GFrameworkTemplate.scripts.constants;
+using MyShatteredPixelDungeon.scripts.constants;
 
-namespace GFrameworkTemplate.scripts.core.environment;
+namespace MyShatteredPixelDungeon.scripts.core.environment;
 
 /// <summary>
 ///     游戏开发环境类，继承自EnvironmentBase

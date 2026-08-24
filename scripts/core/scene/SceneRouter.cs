@@ -1,7 +1,7 @@
 ﻿using GFramework.Game.scene;
 using Godot;
 
-namespace GFrameworkTemplate.scripts.core.scene;
+namespace MyShatteredPixelDungeon.scripts.core.scene;
 
 /// <summary>
 /// 场景路由器类，负责管理游戏场景的切换和路由功能

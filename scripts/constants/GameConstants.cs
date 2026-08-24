@@ -1,4 +1,4 @@
-namespace GFrameworkTemplate.scripts.constants;
+namespace MyShatteredPixelDungeon.scripts.constants;
 
 /// <summary>
 ///     全局常量定义

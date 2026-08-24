@@ -22,7 +22,7 @@ mono_crash.*.json
 .vscode/
 
 # .Net
-My-GFramework-Godot-Template.sln.DotSettings.user
+My-Shattered-Pixel-Dungeon.sln.DotSettings.user
 bin/
 obj/
 addons/*
@@ -34,3 +34,8 @@ addons/*
 
 # Claude Code
 .claude/settings.local.json
+
+# pi agent 临时文件
+
+# pi agent 临时文件
+.pi/changes.json

@@ -11,24 +11,24 @@
 命名空间与目录层次一一对应，使用文件范围声明（`namespace X.Y.Z;`，带分号无大括号）。
 
 ```
-根命名空间: GFrameworkTemplate
+根命名空间: MyShatteredPixelDungeon
 
-global/ 目录                    → GFrameworkTemplate.global;
-scripts/component/<name>/       → GFrameworkTemplate.scripts.component.<name>;
-scripts/entities/<name>/        → GFrameworkTemplate.scripts.entities.<name>;
-scripts/system/<name>/          → GFrameworkTemplate.scripts.system.<name>;
-scripts/enums/<domain>/         → GFrameworkTemplate.scripts.enums.<domain>;
-scripts/menu/<name>/            → GFrameworkTemplate.scripts.menu.<name>;
-scripts/core/<dir>/             → GFrameworkTemplate.scripts.core.<dir>;
-scripts/cqrs/<domain>/command/  → GFrameworkTemplate.scripts.cqrs.<domain>.command;
-scripts/cqrs/<domain>/command/input/ → GFrameworkTemplate.scripts.cqrs.<domain>.command.input;
-scripts/cqrs/<domain>/event/    → GFrameworkTemplate.scripts.cqrs.<domain>.@event;
+global/ 目录                    → MyShatteredPixelDungeon.global;
+scripts/component/<name>/       → MyShatteredPixelDungeon.scripts.component.<name>;
+scripts/entities/<name>/        → MyShatteredPixelDungeon.scripts.entities.<name>;
+scripts/system/<name>/          → MyShatteredPixelDungeon.scripts.system.<name>;
+scripts/enums/<domain>/         → MyShatteredPixelDungeon.scripts.enums.<domain>;
+scripts/menu/<name>/            → MyShatteredPixelDungeon.scripts.menu.<name>;
+scripts/core/<dir>/             → MyShatteredPixelDungeon.scripts.core.<dir>;
+scripts/cqrs/<domain>/command/  → MyShatteredPixelDungeon.scripts.cqrs.<domain>.command;
+scripts/cqrs/<domain>/command/input/ → MyShatteredPixelDungeon.scripts.cqrs.<domain>.command.input;
+scripts/cqrs/<domain>/event/    → MyShatteredPixelDungeon.scripts.cqrs.<domain>.@event;
 ```
 
 ### 注意事项
 
 - C# 关键字 `event` 在命名空间中转义为 `@event`
-- `global/` 使用 `GFrameworkTemplate.global`（不含 `scripts.` 前缀）
+- `global/` 使用 `MyShatteredPixelDungeon.global`（不含 `scripts.` 前缀）
 - 禁止使用传统的花括号命名空间 `namespace X { }` 语法
 
 ---
@@ -117,7 +117,7 @@ scripts/cqrs/<domain>/
 
 **数据事件**（携带属性）— 使用完整类体：
 ```csharp
-namespace GFrameworkTemplate.scripts.cqrs.<domain>.@event;
+namespace MyShatteredPixelDungeon.scripts.cqrs.<domain>.@event;
 
 public sealed class SomeEvent
 {
@@ -128,7 +128,7 @@ public sealed class SomeEvent
 
 **标记事件**（无数据）— 使用文件范围类型声明：
 ```csharp
-namespace GFrameworkTemplate.scripts.cqrs.<domain>.@event;
+namespace MyShatteredPixelDungeon.scripts.cqrs.<domain>.@event;
 
 /// <summary>
 ///     某某事件类，用于表示某某事件
@@ -147,7 +147,7 @@ public sealed class SomeEvent;
 
 **带输入的命令**（异步）— 使用主构造函数：
 ```csharp
-namespace GFrameworkTemplate.scripts.cqrs.<domain>.command;
+namespace MyShatteredPixelDungeon.scripts.cqrs.<domain>.command;
 
 public sealed class SomeCommand(SomeCommandInput input)
     : AbstractAsyncCommand<SomeCommandInput>(input)
@@ -194,7 +194,7 @@ public sealed class SomeCommand : AbstractCommand
 **所有命令输入必须是 `public sealed class`，实现 `ICommandInput`：**
 
 ```csharp
-namespace GFrameworkTemplate.scripts.cqrs.<domain>.command.input;
+namespace MyShatteredPixelDungeon.scripts.cqrs.<domain>.command.input;
 
 public sealed class SomeCommandInput : ICommandInput
 {
@@ -382,8 +382,8 @@ using GFramework.Godot.extensions;
 using GFramework.SourceGenerators.Abstractions.logging;
 using GFramework.SourceGenerators.Abstractions.rule;
 using Godot;
-using GFrameworkTemplate.scripts.entities.my_entity;
-using GFrameworkTemplate.scripts.cqrs.my_domain.@event;
+using MyShatteredPixelDungeon.scripts.entities.my_entity;
+using MyShatteredPixelDungeon.scripts.cqrs.my_domain.@event;
 ```
 
 ---

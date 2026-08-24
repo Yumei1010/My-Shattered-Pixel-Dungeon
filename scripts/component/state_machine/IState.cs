@@ -1,4 +1,4 @@
-﻿namespace GFrameworkTemplate.scripts.component.state_machine;
+﻿namespace MyShatteredPixelDungeon.scripts.component.state_machine;
 
 /// <summary>
 ///     状态契约

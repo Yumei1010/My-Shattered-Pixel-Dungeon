@@ -1,6 +1,6 @@
 ﻿using GFramework.Core.Abstractions.utility;
 
-namespace GFrameworkTemplate.scripts.utility;
+namespace MyShatteredPixelDungeon.scripts.utility;
 
 /// <summary>
 /// 存储写入工具接口，定义向存储系统写入数据的基本操作

@@ -1,7 +1,7 @@
-﻿using GFrameworkTemplate.global;
+﻿using MyShatteredPixelDungeon.global;
 using Godot;
 
-namespace GFrameworkTemplate.scripts.utility;
+namespace MyShatteredPixelDungeon.scripts.utility;
 
 /// <summary>
 ///     提供游戏相关的工具方法。

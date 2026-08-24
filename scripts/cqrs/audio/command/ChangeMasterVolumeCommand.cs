@@ -3,9 +3,9 @@ using GFramework.Core.extensions;
 using GFramework.Game.Abstractions.setting;
 using GFramework.Game.Abstractions.setting.data;
 using GFramework.Godot.setting;
-using GFrameworkTemplate.scripts.cqrs.audio.command.input;
+using MyShatteredPixelDungeon.scripts.cqrs.audio.command.input;
 
-namespace GFrameworkTemplate.scripts.cqrs.audio.command;
+namespace MyShatteredPixelDungeon.scripts.cqrs.audio.command;
 
 /// <summary>
 ///     更改主音量命令类，用于处理主音量更改操作

@@ -7,10 +7,10 @@ using GFramework.Game.Abstractions.ui;
 using GFramework.Godot.ui;
 using GFramework.SourceGenerators.Abstractions.logging;
 using GFramework.SourceGenerators.Abstractions.rule;
-using GFrameworkTemplate.scripts.constants;
-using GFrameworkTemplate.scripts.core.ui;
-using GFrameworkTemplate.scripts.enums.ui;
-using GFrameworkTemplate.global;
+using MyShatteredPixelDungeon.scripts.constants;
+using MyShatteredPixelDungeon.scripts.core.ui;
+using MyShatteredPixelDungeon.scripts.enums.ui;
+using MyShatteredPixelDungeon.global;
 
 
 [Log]
