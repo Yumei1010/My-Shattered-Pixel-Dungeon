@@ -1,0 +1,85 @@
+[gd_scene load_steps=2 format=3 uid="uid://demo_page"]
+
+[ext_resource type="Script" path="res://scripts/menu/demo_page/DemoPage.cs" id="1_demo_page"]
+
+[node name="DemoPage" type="CanvasLayer"]
+script = ExtResource("1_demo_page")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.15, 1.0)
+
+[node name="Title" type="Label" parent="."]
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 400.0
+offset_bottom = 40.0
+text = "My-Shattered-Pixel-Dungeon Demo"
+theme_override_font_sizes/font_size = 20
+
+[node name="SpawnItems" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 100.0
+offset_bottom = 72.0
+text = "生成物品"
+
+[node name="EquipWeapon" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 108.0
+offset_top = 48.0
+offset_right = 192.0
+offset_bottom = 72.0
+text = "装备武器"
+
+[node name="EquipArmor" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 200.0
+offset_top = 48.0
+offset_right = 284.0
+offset_bottom = 72.0
+text = "装备护甲"
+
+[node name="ShowInventory" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 292.0
+offset_top = 48.0
+offset_right = 376.0
+offset_bottom = 72.0
+text = "查看背包"
+
+[node name="TestCombat" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 384.0
+offset_top = 48.0
+offset_right = 468.0
+offset_bottom = 72.0
+text = "测试战斗"
+
+[node name="TestIdentify" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 476.0
+offset_top = 48.0
+offset_right = 560.0
+offset_bottom = 72.0
+text = "随机识别"
+
+[node name="ClearLog" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 568.0
+offset_top = 48.0
+offset_right = 652.0
+offset_bottom = 72.0
+text = "清空日志"
+
+[node name="DemoLog" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+offset_left = 16.0
+offset_top = 80.0
+offset_right = 800.0
+offset_bottom = 600.0
+bbcode_enabled = true
+scroll_active = true

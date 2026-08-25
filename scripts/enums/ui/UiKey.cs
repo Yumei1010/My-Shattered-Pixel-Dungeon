@@ -14,4 +14,9 @@ public enum UiKey
     ///     背包页面
     /// </summary>
     InventoryPage,
+
+    /// <summary>
+    ///     Demo 测试页面
+    /// </summary>
+    DemoPage,
 }
