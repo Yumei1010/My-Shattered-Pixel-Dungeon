@@ -3,6 +3,7 @@ using GFramework.Game.architecture;
 using GFramework.Game.setting;
 using MyShatteredPixelDungeon.scripts.core.scene;
 using MyShatteredPixelDungeon.scripts.core.ui;
+using MyShatteredPixelDungeon.scripts.systems;
 
 namespace MyShatteredPixelDungeon.scripts.module;
 
@@ -16,5 +17,6 @@ public class SystemModule : AbstractModule
         architecture.RegisterSystem(new UiRouter());
         architecture.RegisterSystem(new SceneRouter());
         architecture.RegisterSystem(new SettingsSystem());
+        architecture.RegisterSystem(new TurnSystem());
     }
 }
