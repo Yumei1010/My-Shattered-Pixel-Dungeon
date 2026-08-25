@@ -53,8 +53,14 @@ public abstract class CharEntity : Actor
     /// <summary>经验值</summary>
     public int Exp { get; set; }
 
-    /// <summary>Buff 列表（类型待定义）</summary>
-    public List<object> Buffs { get; } = new();
+    /// <summary>Buff 列表</summary>
+    public List<Buff> Buffs { get; } = new();
+
+    /// <summary>抵抗效果集合</summary>
+    protected HashSet<Type> Resistances { get; } = new();
+
+    /// <summary>免疫效果集合</summary>
+    protected HashSet<Type> Immunities { get; } = new();
 
     protected CharEntity()
     {
@@ -169,6 +175,93 @@ public abstract class CharEntity : Actor
             return true;
         }
         return false;
+    }
+
+    /// <summary>
+    ///     添加 Buff
+    /// </summary>
+    public bool AddBuff(Buff buff)
+    {
+        if (IsImmune(buff.GetType())) return false;
+        Buffs.Add(buff);
+        buff.OnAttach();
+        return true;
+    }
+
+    /// <summary>
+    ///     移除指定 Buff 实例
+    /// </summary>
+    public void RemoveBuff(Buff buff)
+    {
+        if (Buffs.Remove(buff))
+        {
+            buff.OnDetach();
+        }
+    }
+
+    /// <summary>
+    ///     移除指定类型的 Buff
+    /// </summary>
+    public void RemoveBuff<T>() where T : Buff
+    {
+        for (int i = Buffs.Count - 1; i >= 0; i--)
+        {
+            if (Buffs[i] is T)
+            {
+                Buffs[i].OnDetach();
+                Buffs.RemoveAt(i);
+            }
+        }
+    }
+
+    /// <summary>
+    ///     查找指定类型的 Buff
+    /// </summary>
+    public T? FindBuff<T>() where T : Buff
+    {
+        for (int i = 0; i < Buffs.Count; i++)
+        {
+            if (Buffs[i] is T t) return t;
+        }
+        return null;
+    }
+
+    /// <summary>
+    ///     查找所有指定类型的 Buff
+    /// </summary>
+    public List<T> FindBuffs<T>() where T : Buff
+    {
+        var result = new List<T>();
+        for (int i = 0; i < Buffs.Count; i++)
+        {
+            if (Buffs[i] is T t) result.Add(t);
+        }
+        return result;
+    }
+
+    /// <summary>
+    ///     是否免疫指定效果
+    /// </summary>
+    public bool IsImmune(Type effect)
+    {
+        foreach (var t in Immunities)
+        {
+            if (t.IsAssignableFrom(effect)) return true;
+        }
+        return false;
+    }
+
+    /// <summary>
+    ///     抵抗系数（0.5 = 减半，1.0 = 正常）
+    /// </summary>
+    public float Resist(Type effect)
+    {
+        float result = 1f;
+        foreach (var t in Resistances)
+        {
+            if (t.IsAssignableFrom(effect)) result *= 0.5f;
+        }
+        return result;
     }
 
     /// <summary>
