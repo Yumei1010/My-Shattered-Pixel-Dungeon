@@ -18,26 +18,50 @@ namespace MyShatteredPixelDungeon.scripts.ui.status_pane;
 public partial class StatusPane : Control
 {
     private Label HpLabel => GetNode<Label>("%HpLabel");
-    private Label HungerLabel => GetNode<Label>("%HungerLabel");
     private Label DepthLabel => GetNode<Label>("%DepthLabel");
     private Label GoldLabel => GetNode<Label>("%GoldLabel");
     private TextureProgressBar HpBar => GetNode<TextureProgressBar>("%HpBar");
 
     private int _heroId = -1;
+    private int _maxHp = 30;
+    private int _depth = 1;
 
     public override void _Ready()
     {
+        // 自动查找英雄
+        var hero = Actor.All().OfType<HeroEntity>().FirstOrDefault();
+        if (hero != null)
+        {
+            _heroId = hero.Id;
+            _maxHp = hero.MaxHp;
+            UpdateAll(hero);
+        }
+
         this.RegisterEvent<CharDamagedEvent>(OnCharDamaged)
             .UnRegisterWhenNodeExitTree(this);
+
+        // 初始显示
+        HpLabel.Text = $"HP: {_maxHp}/{_maxHp}";
+        HpBar.Value = 100;
+        DepthLabel.Text = $"层数: {_depth}F";
+        GoldLabel.Text = "金币: 0";
     }
 
     /// <summary>
-    ///     绑定英雄
+    ///     设置层数
     /// </summary>
-    public void BindHero(HeroEntity hero)
+    public void SetDepth(int depth)
     {
-        _heroId = hero.Id;
-        UpdateAll(hero);
+        _depth = depth;
+        DepthLabel.Text = $"层数: {_depth}F";
+    }
+
+    /// <summary>
+    ///     设置金币
+    /// </summary>
+    public void SetGold(int gold)
+    {
+        GoldLabel.Text = $"金币: {gold}";
     }
 
     /// <summary>
@@ -45,22 +69,22 @@ public partial class StatusPane : Control
     /// </summary>
     public void UpdateAll(HeroEntity hero)
     {
-        HpLabel.Text = $"HP: {hero.Hp}/{hero.MaxHp}";
-        HpBar.Value = (double)hero.Hp / hero.MaxHp * 100;
-        DepthLabel.Text = $"层数: {hero.Level}F";
-        GoldLabel.Text = $"金币: 0";
+        _maxHp = hero.MaxHp;
+        HpLabel.Text = $"HP: {hero.Hp}/{_maxHp}";
+        HpBar.Value = (double)hero.Hp / _maxHp * 100;
     }
 
     private void OnCharDamaged(CharDamagedEvent e)
     {
         if (e.EntityId != _heroId) return;
-        HpLabel.Text = $"HP: {e.RemainingHp}/{GetMaxHp()}";
-        HpBar.Value = (double)e.RemainingHp / GetMaxHp() * 100;
+        _maxHp = GetMaxHp();
+        HpLabel.Text = $"HP: {e.RemainingHp}/{_maxHp}";
+        HpBar.Value = (double)e.RemainingHp / _maxHp * 100;
     }
 
-    private static int GetMaxHp()
+    private int GetMaxHp()
     {
         var hero = Actor.All().OfType<HeroEntity>().FirstOrDefault();
-        return hero?.MaxHp ?? 30;
+        return hero?.MaxHp ?? _maxHp;
     }
 }

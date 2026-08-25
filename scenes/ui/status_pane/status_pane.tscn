@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://drij7nbhsf0ti"]
+
+[node name="StatusPane" type="CanvasLayer" unique_id=914020259]
+
+[node name="HpLabel" type="Label" parent="." unique_id=63221298]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_right = 0.133
+anchor_bottom = 0.059000004
+offset_right = 0.3199997
+offset_bottom = 0.13999748
+
+[node name="HpBar" type="TextureProgressBar" parent="." unique_id=1371246761]
+unique_name_in_owner = true
+offset_right = 256.0
+offset_bottom = 16.0
+
+[node name="HungerLabel" type="Label" parent="." unique_id=116808462]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_right = 0.133
+anchor_bottom = 0.059000004
+offset_top = 32.0
+offset_right = 0.3199997
+offset_bottom = 32.14
+
+[node name="DepthLabel" type="Label" parent="." unique_id=928371105]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_right = 0.133
+anchor_bottom = 0.059000004
+offset_top = 64.0
+offset_right = 0.3199997
+offset_bottom = 64.14
+
+[node name="GoldLabel" type="Label" parent="." unique_id=1236363750]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_right = 0.133
+anchor_bottom = 0.059000004
+offset_top = 96.0
+offset_right = 0.3199997
+offset_bottom = 96.14

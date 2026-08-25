@@ -1,7 +1,6 @@
 using GFramework.Core.extensions;
 using GFramework.SourceGenerators.Abstractions.logging;
 using GFramework.SourceGenerators.Abstractions.rule;
-using MyShatteredPixelDungeon.scripts.core;
 using Godot;
 
 namespace MyShatteredPixelDungeon.scripts.ui.game_log;
