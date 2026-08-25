@@ -100,6 +100,9 @@ public partial class GameEntryPoint : Node
 
     private bool ShouldEnterAppState()
     {
+        // Demo 模式（IsDev）下直接运行 main.tscn 中的 DemoScene，不经过状态机
+        if (IsDev) return false;
+
         var tree = GetTree();
         var currentScene = tree.CurrentScene;
         if (currentScene == null)
