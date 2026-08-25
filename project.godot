@@ -56,7 +56,6 @@ folder_colors={
 "res://global/": "orange",
 "res://resource/": "yellow",
 "res://scenes/": "green",
-"res://script_templates/": "blue",
 "res://scripts/": "teal"
 }
 
