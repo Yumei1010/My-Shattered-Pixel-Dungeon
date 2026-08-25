@@ -1,4 +1,5 @@
 using MyShatteredPixelDungeon.scripts.entities;
+using MyShatteredPixelDungeon.scripts.entities.buffs;
 
 namespace MyShatteredPixelDungeon.scripts.items.food;
 
@@ -8,7 +9,7 @@ namespace MyShatteredPixelDungeon.scripts.items.food;
 public abstract class Food : Item
 {
     /// <summary>饱食度恢复量</summary>
-    public virtual int Hunger => 0;
+    public virtual int HungerValue => 0;
 
     /// <summary>HP 恢复量</summary>
     public virtual int HpRestore => 0;
@@ -17,6 +18,27 @@ public abstract class Food : Item
     public virtual float EatTime => 1f;
 
     public override string DefaultAction => ItemAction.Eat;
+
+    /// <summary>
+    ///     食用食物
+    /// </summary>
+    public virtual void Eat(HeroEntity hero)
+    {
+        // 恢复饥饿值
+        var hunger = hero.FindBuff<Hunger>();
+        if (hunger != null)
+        {
+            hunger.Eat(HungerValue);
+        }
+
+        // 恢复 HP
+        if (HpRestore > 0)
+        {
+            hero.Hp = Math.Min(hero.Hp + HpRestore, hero.MaxHp);
+        }
+
+        Identify();
+    }
 }
 
 /// <summary>
@@ -25,7 +47,7 @@ public abstract class Food : Item
 public sealed class MysteryMeat : Food
 {
     public override string Name => "神秘肉";
-    public override int Hunger => 100;
+    public override int HungerValue => 100;
 }
 
 /// <summary>
@@ -34,7 +56,7 @@ public sealed class MysteryMeat : Food
 public sealed class ChargrilledMeat : Food
 {
     public override string Name => "烤肉";
-    public override int Hunger => 250;
+    public override int HungerValue => 250;
 }
 
 /// <summary>
@@ -43,7 +65,7 @@ public sealed class ChargrilledMeat : Food
 public sealed class Pasty : Food
 {
     public override string Name => "小圆面包";
-    public override int Hunger => 100;
+    public override int HungerValue => 100;
 }
 
 /// <summary>
@@ -52,7 +74,7 @@ public sealed class Pasty : Food
 public sealed class RottenMeat : Food
 {
     public override string Name => "腐肉";
-    public override int Hunger => 50;
+    public override int HungerValue => 50;
 }
 
 /// <summary>
@@ -61,7 +83,7 @@ public sealed class RottenMeat : Food
 public sealed class Blindweed : Food
 {
     public override string Name => "盲眼草";
-    public override int Hunger => 50;
+    public override int HungerValue => 50;
 }
 
 /// <summary>
@@ -70,7 +92,7 @@ public sealed class Blindweed : Food
 public sealed class NutritiousBread : Food
 {
     public override string Name => "全营养面包";
-    public override int Hunger => 450;
+    public override int HungerValue => 450;
 }
 
 /// <summary>
@@ -79,5 +101,5 @@ public sealed class NutritiousBread : Food
 public sealed class FrozenCarpaccio : Food
 {
     public override string Name => "冻肉";
-    public override int Hunger => 75;
+    public override int HungerValue => 75;
 }

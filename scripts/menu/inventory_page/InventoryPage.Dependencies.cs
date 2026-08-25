@@ -5,6 +5,9 @@ using MyShatteredPixelDungeon.scripts.entities;
 using MyShatteredPixelDungeon.scripts.items;
 using MyShatteredPixelDungeon.scripts.items.weapons;
 using MyShatteredPixelDungeon.scripts.items.armors;
+using MyShatteredPixelDungeon.scripts.items.food;
+using MyShatteredPixelDungeon.scripts.items.potions;
+using MyShatteredPixelDungeon.scripts.items.scrolls;
 using MyShatteredPixelDungeon.scripts.systems;
 using Godot;
 
@@ -129,9 +132,18 @@ public partial class InventoryPage
                 }
                 break;
             case ItemAction.Drink:
-            case ItemAction.Eat:
             case ItemAction.Read:
+                // 应用物品效果
+                ApplyItemEffect(_selectedItem);
                 InventorySystem.ConsumeItem(_hero, _selectedItem);
+                break;
+            case ItemAction.Eat:
+                // 食用食物
+                if (_selectedItem is Food food)
+                {
+                    food.Eat(_hero);
+                    InventorySystem.ConsumeItem(_hero, _selectedItem);
+                }
                 break;
             case ItemAction.Throw:
                 // TODO: 投掷逻辑
@@ -142,6 +154,22 @@ public partial class InventoryPage
         PopulateItemList();
         RefreshItemDetail();
         RefreshActionButtons();
+    }
+
+    /// <summary>
+    ///     应用物品效果（药水/卷轴）
+    /// </summary>
+    private void ApplyItemEffect(Item item)
+    {
+        if (_hero == null) return;
+        if (item is Potion potion)
+        {
+            potion.Apply(_hero);
+        }
+        else if (item is Scroll scroll)
+        {
+            scroll.Read(_hero);
+        }
     }
 
     /// <summary>
