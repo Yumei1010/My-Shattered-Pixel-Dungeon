@@ -56,7 +56,7 @@ public sealed class LoopBuilder : RegularBuilder
         Entrance.SetSize();
         Entrance.SetPos(0, 0);
 
-        float startAngle = (float)((double)DeterministicRng.Float() * 360);
+        float startAngle = (DeterministicRng.Float() * 360f);
 
         _mainPathRooms.Insert(0, Entrance);
         if (Exit != null)
@@ -122,7 +122,7 @@ public sealed class LoopBuilder : RegularBuilder
             int tries = 10;
             do
             {
-                angle = PlaceRoom(loop, Entrance, Shop, (float)((double)DeterministicRng.Float() * 360f));
+                angle = PlaceRoom(loop, Entrance, Shop, (DeterministicRng.Float() * 360f));
                 tries--;
             } while (angle == -1 && tries >= 0);
             if (angle == -1) return null;
@@ -154,7 +154,7 @@ public sealed class LoopBuilder : RegularBuilder
             foreach (var n in r.Neighbours.ToList())
             {
                 if (!n.Connected.ContainsKey(r)
-                    && (double)DeterministicRng.Float() < _extraConnectionChance)
+                    && DeterministicRng.Float() < _extraConnectionChance)
                 {
                     r.Connect(n);
                 }
@@ -173,10 +173,10 @@ public sealed class LoopBuilder : RegularBuilder
             new PointF((r.Left + r.Right) / 2f, (r.Top + r.Bottom) / 2f), _loopCenter);
         if (toCenter < 0) toCenter += 360f;
 
-        float currAngle = (float)((double)DeterministicRng.Float() * 360f);
+        float currAngle = (DeterministicRng.Float() * 360f);
         for (int i = 0; i < 4; i++)
         {
-            float newAngle = (float)((double)DeterministicRng.Float() * 360f);
+            float newAngle = (DeterministicRng.Float() * 360f);
             if (Math.Abs(toCenter - newAngle) < Math.Abs(toCenter - currAngle))
             {
                 currAngle = newAngle;

@@ -126,7 +126,6 @@ public abstract class RegularBuilder : Builder
         int tries;
         Room curr;
         var connectingRoomsThisBranch = new List<Room>();
-        int failedBranchAttempts = 0;
         var connectionChances = (float[])connChances.Clone();
 
         while (i < roomsToBranch.Count)
@@ -178,7 +177,6 @@ public abstract class RegularBuilder : Builder
 
             if (connectingRoomsThisBranch.Count != connectingRooms)
             {
-                failedBranchAttempts++;
                 continue;
             }
 
@@ -200,7 +198,6 @@ public abstract class RegularBuilder : Builder
                 connectingRoomsThisBranch.Clear();
                 // 放置失败的房间从 rooms 移除（避免出现未放置房间）
                 rooms.Remove(r);
-                failedBranchAttempts++;
                 i++; // 跳过此房间，继续下一个
                 continue;
             }
@@ -225,7 +222,7 @@ public abstract class RegularBuilder : Builder
         return true;
     }
 
-    protected virtual float RandomBranchAngle(Room r) => (float)((double)DeterministicRng.Float() * 360f);
+    protected virtual float RandomBranchAngle(Room r) => (DeterministicRng.Float() * 360f);
 
     private static void Shuffle<T>(List<T> list)
     {
@@ -242,7 +239,7 @@ public abstract class RegularBuilder : Builder
     {
         float total = probs.Sum();
         if (total <= 0) return -1;
-        float roll = (float)(double)DeterministicRng.Float() * total;
+        float roll = DeterministicRng.Float() * total;
         float cumulative = 0;
         for (int i = 0; i < probs.Length; i++)
         {

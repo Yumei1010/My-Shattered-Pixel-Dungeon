@@ -136,7 +136,6 @@ public abstract class Room : Rect
         foreach (var (room, _) in Connected)
         {
             var i = Intersect(room);
-            if (i is null) continue;
             if (direction == DirLeft && i.Width == 0 && i.Left == Left) total++;
             else if (direction == DirTop && i.Height == 0 && i.Top == Top) total++;
             else if (direction == DirRight && i.Width == 0 && i.Right == Right) total++;
@@ -161,7 +160,6 @@ public abstract class Room : Rect
             return false;
 
         var i = Intersect(other);
-        if (i is null) return false;
 
         bool foundPoint = false;
         foreach (var p in i.GetPoints())
@@ -185,7 +183,7 @@ public abstract class Room : Rect
     {
         if (Neighbours.Contains(other)) return true;
         var i = Intersect(other);
-        if ((i is not null && i.Width == 0 && i.Height >= 2) || (i is not null && i.Height == 0 && i.Width >= 2))
+        if ((i.Width == 0 && i.Height >= 2) || (i.Height == 0 && i.Width >= 2))
         {
             Neighbours.Add(other);
             other.Neighbours.Add(this);
