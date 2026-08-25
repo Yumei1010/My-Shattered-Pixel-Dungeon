@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bew1bnreo1c1a"]
+
+[node name="ToolBar" type="CanvasLayer" unique_id=1340323239]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1185728040]
+offset_left = 576.0
+offset_top = 384.0
+offset_right = 960.0
+offset_bottom = 434.0
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="AttackBtn" type="Button" parent="HBoxContainer" unique_id=1564375229]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
+
+[node name="WaitBtn" type="Button" parent="HBoxContainer" unique_id=1443542396]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
+
+[node name="RestBtn" type="Button" parent="HBoxContainer" unique_id=882962558]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
+
+[node name="InventoryBtn" type="Button" parent="HBoxContainer" unique_id=1447969190]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
