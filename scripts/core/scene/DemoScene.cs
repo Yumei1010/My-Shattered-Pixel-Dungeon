@@ -43,11 +43,15 @@ public partial class DemoScene : Node2D
     private const int MobTileH = 16;
     private const int TileSize = 16;
 
+    // 地形 TileMap
+    private TileMap? _tileMap;
+
     public override void _Ready()
     {
         SetupUI();
         InitGame();
         CreateEntitySprites();
+        RenderTerrain();
         ConfigureCamera();
         QueueRedraw(); // 触发 _Draw
         UpdateStatus();
@@ -245,6 +249,59 @@ public partial class DemoScene : Node2D
     /// <summary>
     ///     绘制地图（使用 _Draw 避免依赖 TileSet 资源）
     /// </summary>
+    /// <summary>
+    ///     用真实地形图集(tiles_sewers.png)渲染 TileMap
+    /// </summary>
+    private void RenderTerrain()
+    {
+        if (_data == null) return;
+
+        var ts = new TileSet { TileSize = new Vector2I(TileSize, TileSize) };
+        var atlas = new TileSetAtlasSource
+        {
+            Texture = GD.Load<Texture2D>("res://assets/environment/tiles_sewers.png"),
+            TextureRegionSize = new Vector2I(TileSize, TileSize)
+        };
+        int sid = ts.AddSource(atlas, 0);
+
+        _tileMap = new TileMap { TileSet = ts, Position = new Vector2(0, 60) };
+        AddChild(_tileMap);
+
+        for (int i = 0; i < _data.Length; i++)
+        {
+            var p = _data.CellToPoint(i);
+            var cell = new Vector2I(p.X, p.Y);
+
+            Vector2I atlasCoord = _data.Passable[i]
+                ? GroundTile(_data, i)      // 可通行 → 地面类
+                : new Vector2I(4, 0);       // 墙
+            _tileMap.SetCell(0, cell, sid, atlasCoord);
+        }
+    }
+
+    /// <summary>
+    ///     挑选可通行格子的地面 tile（地形图集的行 0，列随 terrain）
+    /// </summary>
+    private static Vector2I GroundTile(DungeonData d, int i)
+    {
+        int t = d.Map[i];
+        if (d.Water[i]) return new Vector2I(0, 5);      // 水纹
+        if (i == d.Entrance) return new Vector2I(1, 0); // 入口地面
+        if (i == d.Exit) return new Vector2I(6, 0);     // 出口
+        if (d.Flammable[i]) return new Vector2I(2, 0);  // 草地
+        if (t < 16) return new Vector2I(t, 0);          // 直接按 terrain 映射行0
+        return new Vector2I(1, 0);                      // 默认地面
+    }
+
+    /// <summary>
+    ///     格子 → 世界矩形（含地图偏移）
+    /// </summary>
+    private Rect2 CellRect(int cell)
+    {
+        var p = _data!.CellToPoint(cell);
+        return new Rect2(p.X * TileSize, p.Y * TileSize + 60, TileSize, TileSize);
+    }
+
     public override void _Draw()
     {
         if (_data == null) return;
@@ -253,30 +310,9 @@ public partial class DemoScene : Node2D
         DrawRect(new Rect2(0, 60, _data.Width * TileSize, _data.Height * TileSize),
             new Color(0.1f, 0.1f, 0.1f));
 
-        // 地形
-        for (int i = 0; i < _data.Length; i++)
-        {
-            var p = _data.CellToPoint(i);
-            var rect = new Rect2(p.X * TileSize, p.Y * TileSize + 60, TileSize, TileSize);
-
-            Color color;
-            if (_data.Passable[i])
-            {
-                // 可通行 → 地面色
-                color = new Color(0.4f, 0.35f, 0.3f);
-                if (i == _data.Entrance) color = new Color(0.3f, 0.6f, 0.3f); // 入口
-                else if (i == _data.Exit) color = new Color(0.8f, 0.5f, 0.2f); // 出口
-                else if (_data.Water[i]) color = new Color(0.2f, 0.4f, 0.8f);
-                else if (_data.Flammable[i]) color = new Color(0.3f, 0.5f, 0.2f);
-            }
-            else
-            {
-                // 不可通行 → 墙壁
-                color = new Color(0.5f, 0.5f, 0.5f);
-            }
-
-            DrawRect(rect, color);
-        }
+        // 入口/出口高亮（覆盖在 TileMap 地形之上）
+        if (_data.Entrance >= 0) DrawRect(CellRect(_data.Entrance), new Color(0.3f, 0.7f, 0.3f, 0.35f));
+        if (_data.Exit >= 0) DrawRect(CellRect(_data.Exit), new Color(0.9f, 0.6f, 0.25f, 0.35f));
 
         // 地面物品（用不同颜色小方块区分类型）
         foreach (var heap in GroundItemManager.AllHeaps)
