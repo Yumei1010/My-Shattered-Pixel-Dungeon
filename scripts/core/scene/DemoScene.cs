@@ -30,15 +30,25 @@ public partial class DemoScene : Node2D
     // 游戏状态
     private DungeonData? _data;
     private HeroEntity? _hero;
-    private readonly List<(int Pos, EntityKind Kind)> _entities = new();
+    private int _killCount;
 
-    // 图块尺寸
+    // 角色精灵（真实素材）
+    private Sprite2D? _heroSprite;
+    private readonly List<Sprite2D> _mobSprites = new();
+
+    // 素材帧尺寸
+    private const int HeroTileW = 16;
+    private const int HeroTileH = 32;
+    private const int MobTileW = 16;
+    private const int MobTileH = 16;
     private const int TileSize = 16;
 
     public override void _Ready()
     {
         SetupUI();
         InitGame();
+        CreateEntitySprites();
+        ConfigureCamera();
         QueueRedraw(); // 触发 _Draw
         UpdateStatus();
         _log.Debug("Demo 场景就绪");
@@ -105,8 +115,6 @@ public partial class DemoScene : Node2D
         // 放置地面物品
         PlaceGroundItems();
 
-        // 刷新实体列表
-        RefreshEntities();
     }
 
     private void PlaceMobs()
@@ -162,14 +170,76 @@ public partial class DemoScene : Node2D
     /// <summary>
     ///     刷新场景实体显示列表
     /// </summary>
-    private void RefreshEntities()
+    /// <summary>
+    ///     创建英雄/怪物精灵（从真实素材 spritesheet 取第一帧）
+    /// </summary>
+    private void CreateEntitySprites()
     {
-        _entities.Clear();
-        if (_hero != null)
-            _entities.Add((_hero.Pos, EntityKind.Hero));
+        if (_data == null || _hero == null) return;
+
+        _heroSprite = MakeSprite("res://assets/sprites/warrior.png", HeroTileW, HeroTileH);
+        _heroSprite.ZIndex = 10;
+        AddChild(_heroSprite);
+
+        foreach (var s in _mobSprites) s.QueueFree();
+        _mobSprites.Clear();
 
         foreach (var mob in Actor.All().OfType<MobEntity>().Where(m => m.IsAlive))
-            _entities.Add((mob.Pos, EntityKind.Mob));
+        {
+            var sprite = MakeSprite("res://assets/sprites/rat.png", MobTileW, MobTileH);
+            sprite.ZIndex = 10;
+            AddChild(sprite);
+            _mobSprites.Add(sprite);
+        }
+
+        SyncSprites();
+    }
+
+    /// <summary>
+    ///     从 spritesheet 创建精灵（Region 显示第 0 帧）
+    /// </summary>
+    private static Sprite2D MakeSprite(string path, int fw, int fh)
+    {
+        var tex = GD.Load<Texture2D>(path);
+        return new Sprite2D { Texture = tex, RegionEnabled = true, RegionRect = new Rect2(0, 0, fw, fh) };
+    }
+
+    /// <summary>
+    ///     同步所有角色精灵到各自地图位置
+    /// </summary>
+    private void SyncSprites()
+    {
+        if (_data == null || _hero == null) return;
+
+        var hp = _data.CellToPoint(_hero.Pos);
+        if (_heroSprite != null)
+        {
+            _heroSprite.Position = new Vector2(hp.X * TileSize, hp.Y * TileSize + 60);
+            _heroSprite.Offset = new Vector2(0, -HeroTileH + TileSize);
+        }
+
+        int idx = 0;
+        foreach (var mob in Actor.All().OfType<MobEntity>().Where(m => m.IsAlive))
+        {
+            if (idx >= _mobSprites.Count) break;
+            var mp = _data.CellToPoint(mob.Pos);
+            var sprite = _mobSprites[idx++];
+            sprite.Position = new Vector2(mp.X * TileSize, mp.Y * TileSize + 60);
+            sprite.Offset = new Vector2(0, -MobTileH + TileSize);
+        }
+        QueueRedraw();
+    }
+
+    /// <summary>
+    ///     相机跟随英雄并缩放到视野
+    /// </summary>
+    private void ConfigureCamera()
+    {
+        var cam = new Camera2D();
+        var p = _data!.CellToPoint(_data.Entrance);
+        cam.Position = new Vector2(p.X * TileSize, p.Y * TileSize + 60);
+        cam.Zoom = new Vector2(1f, 1f);
+        AddChild(cam);
     }
 
     /// <summary>
@@ -224,28 +294,6 @@ public partial class DemoScene : Node2D
             DrawRect(rect, itemColor);
         }
 
-        // 实体（英雄/怪物）用彩色方块
-        foreach (var (pos, kind) in _entities)
-        {
-            var p = _data.CellToPoint(pos);
-            var rect = new Rect2(p.X * TileSize + 2, p.Y * TileSize + 62, 12, 12);
-            Color c = kind switch
-            {
-                EntityKind.Hero => new Color(0.2f, 0.6f, 1.0f),   // 英雄-蓝
-                EntityKind.Mob => new Color(1.0f, 0.3f, 0.2f),    // 怪物-红
-                _ => new Color(1f, 1f, 1f)
-            };
-            DrawRect(rect, c);
-            // 轮廓
-            DrawRect(rect, new Color(1f, 1f, 1f, 0.5f), false, 1f);
-        }
-    }
-
-    /// <summary>实体类型</summary>
-    private enum EntityKind
-    {
-        Hero,
-        Mob
     }
 
     public override void _Input(InputEvent @event)
@@ -296,8 +344,7 @@ public partial class DemoScene : Node2D
 
         if (acted)
         {
-            RefreshEntities();
-            PlaceHero();
+            SyncSprites();
             UpdateStatus();
             CheckDeath();
         }
@@ -381,13 +428,7 @@ public partial class DemoScene : Node2D
                 }
             }
         }
-        RefreshEntities();
-    }
-
-    private void PlaceHero()
-    {
-        if (_hero == null) return;
-        RefreshEntities();
+        SyncSprites();
     }
 
     private void UpdateStatus()
@@ -408,7 +449,6 @@ public partial class DemoScene : Node2D
         }
     }
 
-    private int _killCount;
 
     private void Log(string msg)
     {
