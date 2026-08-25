@@ -130,3 +130,12 @@ fafd549  refactor(dungeon): 清理代码质量问题
 - 添加 GroundItemManager 地面物品管理器（拾取/丢弃/自动拾取）
 - 背包页面添加 Drop 丢弃动作
 - 构建通过，78 测试通过
+
+## 当前任务 (progress)
+- 阶段 3 全部完成 ✅
+- CombatSystem 战斗系统（攻击/伤害/死亡/掉落）
+- Enchantment 13 种武器附魔
+- Glyph 13 种护甲雕纹
+- DemoPage 简易测试页面（生成物品/装备/背包/战斗/识别）
+- 所有 .uid 文件对齐
+- 构建通过，78 测试通过

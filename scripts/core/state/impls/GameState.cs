@@ -3,24 +3,25 @@ using GFramework.Core.extensions;
 using GFramework.Core.state;
 using GFramework.Game.Abstractions.scene;
 using GFramework.Game.Abstractions.ui;
+using MyShatteredPixelDungeon.scripts.enums.scene;
 
 namespace MyShatteredPixelDungeon.scripts.core.state.impls;
 
 /// <summary>
-///     应用默认状态，清除 UI 和场景路由，为推送新页面做准备
+///     游戏主状态，加载可玩的 Demo 场景
 /// </summary>
-public class AppState : ContextAwareStateBase
+public class GameState : ContextAwareStateBase
 {
     public override void OnEnter(IState? from)
     {
         var uiRouter = this.GetSystem<IUiRouter>()!;
         var sceneRouter = this.GetSystem<ISceneRouter>()!;
-        uiRouter.Clear();
-        sceneRouter.Unload();
 
-        // 进入游戏状态
-        var stateMachine = this.GetSystem<IStateMachineSystem>()!;
-        stateMachine.ChangeTo<GameState>();
+        // 清除旧 UI
+        uiRouter.Clear();
+
+        // 加载可玩 Demo 场景
+        sceneRouter.Replace(nameof(SceneKey.DemoScene));
     }
 
     public override bool CanTransitionTo(IState target) => true;

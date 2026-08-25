@@ -1,85 +1,95 @@
-[gd_scene load_steps=2 format=3 uid="uid://demo_page"]
+[gd_scene format=3 uid="uid://bytcowgywtdrs"]
 
-[ext_resource type="Script" path="res://scripts/menu/demo_page/DemoPage.cs" id="1_demo_page"]
+[ext_resource type="Script" uid="uid://bcftyx686jwy5" path="res://scripts/menu/demo_page/DemoPage.cs" id="1_demo_page"]
 
-[node name="DemoPage" type="Control"]
+[node name="DemoPage" type="Control" unique_id=1967772355]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_demo_page")
 
-[node name="Background" type="ColorRect" parent="."]
-anchors_preset = 0
+[node name="Background" type="ColorRect" parent="." unique_id=446479618]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.1, 0.1, 0.15, 1.0)
+color = Color(0.1, 0.1, 0.15, 1)
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=1637150191]
+layout_mode = 0
 offset_left = 16.0
 offset_top = 8.0
 offset_right = 400.0
 offset_bottom = 40.0
-text = "My-Shattered-Pixel-Dungeon Demo"
 theme_override_font_sizes/font_size = 20
+text = "My-Shattered-Pixel-Dungeon Demo"
 
-[node name="SpawnItems" type="Button" parent="."]
+[node name="SpawnItems" type="Button" parent="." unique_id=1286509403]
 unique_name_in_owner = true
-offset_left = 16.0
-offset_top = 48.0
-offset_right = 100.0
+layout_mode = 0
+offset_left = 744.0
+offset_top = 16.0
+offset_right = 944.0
 offset_bottom = 72.0
 text = "生成物品"
 
-[node name="EquipWeapon" type="Button" parent="."]
+[node name="EquipWeapon" type="Button" parent="." unique_id=1646095490]
 unique_name_in_owner = true
-offset_left = 108.0
-offset_top = 48.0
-offset_right = 192.0
-offset_bottom = 72.0
+layout_mode = 0
+offset_left = 744.0
+offset_top = 80.0
+offset_right = 944.0
+offset_bottom = 136.0
 text = "装备武器"
 
-[node name="EquipArmor" type="Button" parent="."]
+[node name="EquipArmor" type="Button" parent="." unique_id=624036357]
 unique_name_in_owner = true
-offset_left = 200.0
-offset_top = 48.0
-offset_right = 284.0
-offset_bottom = 72.0
+layout_mode = 0
+offset_left = 744.0
+offset_top = 144.0
+offset_right = 944.0
+offset_bottom = 200.0
 text = "装备护甲"
 
-[node name="ShowInventory" type="Button" parent="."]
+[node name="ShowInventory" type="Button" parent="." unique_id=947399454]
 unique_name_in_owner = true
-offset_left = 292.0
-offset_top = 48.0
-offset_right = 376.0
-offset_bottom = 72.0
+layout_mode = 0
+offset_left = 744.0
+offset_top = 208.0
+offset_right = 944.0
+offset_bottom = 264.0
 text = "查看背包"
 
-[node name="TestCombat" type="Button" parent="."]
+[node name="TestCombat" type="Button" parent="." unique_id=318667094]
 unique_name_in_owner = true
-offset_left = 384.0
-offset_top = 48.0
-offset_right = 468.0
-offset_bottom = 72.0
+layout_mode = 0
+offset_left = 744.0
+offset_top = 272.0
+offset_right = 944.0
+offset_bottom = 328.0
 text = "测试战斗"
 
-[node name="TestIdentify" type="Button" parent="."]
+[node name="TestIdentify" type="Button" parent="." unique_id=606692159]
 unique_name_in_owner = true
-offset_left = 476.0
-offset_top = 48.0
-offset_right = 560.0
-offset_bottom = 72.0
+layout_mode = 0
+offset_left = 744.0
+offset_top = 336.0
+offset_right = 944.0
+offset_bottom = 392.0
 text = "随机识别"
 
-[node name="ClearLog" type="Button" parent="."]
+[node name="ClearLog" type="Button" parent="." unique_id=181322433]
 unique_name_in_owner = true
-offset_left = 568.0
-offset_top = 48.0
-offset_right = 652.0
-offset_bottom = 72.0
+layout_mode = 0
+offset_left = 744.0
+offset_top = 400.0
+offset_right = 944.0
+offset_bottom = 456.0
 text = "清空日志"
 
-[node name="DemoLog" type="RichTextLabel" parent="."]
+[node name="DemoLog" type="RichTextLabel" parent="." unique_id=1824899966]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 16.0
 offset_top = 80.0
 offset_right = 800.0
 offset_bottom = 600.0
 bbcode_enabled = true
-scroll_active = true
