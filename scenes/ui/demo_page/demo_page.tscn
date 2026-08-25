@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/menu/demo_page/DemoPage.cs" id="1_demo_page"]
 
-[node name="DemoPage" type="CanvasLayer"]
+[node name="DemoPage" type="Control"]
 script = ExtResource("1_demo_page")
 
 [node name="Background" type="ColorRect" parent="."]
