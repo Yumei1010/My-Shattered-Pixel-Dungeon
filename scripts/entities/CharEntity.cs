@@ -178,6 +178,11 @@ public abstract class CharEntity : Actor
     }
 
     /// <summary>
+    ///     潜行值
+    /// </summary>
+    public virtual float Stealth() => 0f;
+
+    /// <summary>
     ///     添加 Buff
     /// </summary>
     public bool AddBuff(Buff buff)
