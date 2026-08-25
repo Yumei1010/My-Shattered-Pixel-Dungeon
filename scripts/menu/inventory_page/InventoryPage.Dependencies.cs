@@ -148,6 +148,14 @@ public partial class InventoryPage
             case ItemAction.Throw:
                 // TODO: 投掷逻辑
                 break;
+            case ItemAction.Drop:
+                // 丢弃到地面
+                if (_hero != null)
+                {
+                    GroundItemManager.Drop(_hero.Pos, _selectedItem);
+                    _hero.Inventory.Remove(_selectedItem);
+                }
+                break;
         }
 
         // 刷新显示

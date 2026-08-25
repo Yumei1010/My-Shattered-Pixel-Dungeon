@@ -5,7 +5,7 @@ namespace MyShatteredPixelDungeon.scripts.items.potions;
 
 /// <summary>
 ///     药水基类，对应原版 com.shatteredpixel.shatteredpixeldungeon.items.potions.Potion
-///     12 种药水
+///     12 种药水，未鉴定时显示颜色名，已鉴定显示真名
 /// </summary>
 public abstract class Potion : Item
 {
@@ -18,6 +18,25 @@ public abstract class Potion : Item
     public override string DefaultAction => ItemAction.Drink;
 
     /// <summary>
+    ///     显示名称（未鉴定时显示颜色名，已鉴定显示真名）
+    /// </summary>
+    public override string Name
+    {
+        get
+        {
+            if (IsIdentified)
+                return TrueName;
+            string colorName = IdentificationSystem.GetPotionColorName(this);
+            return $"{colorName}色药水";
+        }
+    }
+
+    /// <summary>
+    ///     真实名称
+    /// </summary>
+    protected abstract string TrueName { get; }
+
+    /// <summary>
     ///     执行药水效果
     /// </summary>
     public abstract void Apply(HeroEntity hero);
@@ -27,7 +46,6 @@ public abstract class Potion : Item
     /// </summary>
     public override void DoThrow(HeroEntity hero)
     {
-        // 投掷时在目标位置释放效果
         Apply(hero);
     }
 
@@ -45,8 +63,7 @@ public abstract class Potion : Item
 /// </summary>
 public sealed class HealingPotion : Potion
 {
-    public override string Name => "治疗药水";
-
+    protected override string TrueName => "治疗药水";
     public override void Apply(HeroEntity hero)
     {
         int heal = 20 + hero.Level * 5;
@@ -60,8 +77,7 @@ public sealed class HealingPotion : Potion
 /// </summary>
 public sealed class VitalityPotion : Potion
 {
-    public override string Name => "生命活力药水";
-
+    protected override string TrueName => "生命活力药水";
     public override void Apply(HeroEntity hero)
     {
         hero.Hp = hero.MaxHp;
@@ -74,8 +90,7 @@ public sealed class VitalityPotion : Potion
 /// </summary>
 public sealed class StrengthPotion : Potion
 {
-    public override string Name => "力量药水";
-
+    protected override string TrueName => "力量药水";
     public override void Apply(HeroEntity hero)
     {
         hero.Strength++;
@@ -88,8 +103,7 @@ public sealed class StrengthPotion : Potion
 /// </summary>
 public sealed class ExperiencePotion : Potion
 {
-    public override string Name => "经验药水";
-
+    protected override string TrueName => "经验药水";
     public override void Apply(HeroEntity hero)
     {
         hero.Exp += 10;
@@ -98,15 +112,14 @@ public sealed class ExperiencePotion : Potion
 }
 
 /// <summary>
-///     隐身药水 — 施加隐身效果
+///     隐身药水 — 施加隐身效果（20 回合）
 /// </summary>
 public sealed class InvisibilityPotion : Potion
 {
-    public override string Name => "隐身药水";
-
+    protected override string TrueName => "隐身药水";
     public override void Apply(HeroEntity hero)
     {
-        // TODO: 添加隐身 Buff
+        Buff.Prolong<InvisibilityBuff>(hero, 20f);
         MarkIdentified();
     }
 }
@@ -116,11 +129,12 @@ public sealed class InvisibilityPotion : Potion
 /// </summary>
 public sealed class LiquidFlamePotion : Potion
 {
-    public override string Name => "火焰药水";
-
+    protected override string TrueName => "火焰药水";
     public override void Apply(HeroEntity hero)
     {
-        // TODO: 对目标位置造成火焰伤害
+        // 对自身和周围造成火焰伤害（简化版：直接对英雄造成少量伤害）
+        int dmg = 5 + hero.Level;
+        hero.Damage(dmg, this);
         MarkIdentified();
     }
 }
@@ -130,11 +144,16 @@ public sealed class LiquidFlamePotion : Potion
 /// </summary>
 public sealed class FrostPotion : Potion
 {
-    public override string Name => "冰冻药水";
-
+    protected override string TrueName => "冰冻药水";
     public override void Apply(HeroEntity hero)
     {
-        // TODO: 施加冰冻效果（减速 + 冻结）
+        Buff.Prolong<FrostBuff>(hero, 10f);
+        // 对附近怪物也施加冰冻
+        foreach (var mob in Actor.All().OfType<MobEntity>())
+        {
+            if (hero.DistanceTo(mob.Pos) <= 2)
+                Buff.Prolong<FrostBuff>(mob, 10f);
+        }
         MarkIdentified();
     }
 }
@@ -144,8 +163,7 @@ public sealed class FrostPotion : Potion
 /// </summary>
 public sealed class ParalysisPotion : Potion
 {
-    public override string Name => "麻痹药水";
-
+    protected override string TrueName => "麻痹药水";
     public override void Apply(HeroEntity hero)
     {
         Buff.Prolong<ParalysisBuff>(hero, 10f);
@@ -158,30 +176,25 @@ public sealed class ParalysisPotion : Potion
 /// </summary>
 public sealed class PurifyPotion : Potion
 {
-    public override string Name => "净化药水";
-
+    protected override string TrueName => "净化药水";
     public override void Apply(HeroEntity hero)
     {
-        // 移除所有负面 Buff
         var debuffs = hero.Buffs.Where(b => b.Type == BuffType.Negative).ToList();
         foreach (var debuff in debuffs)
-        {
             hero.RemoveBuff(debuff);
-        }
         MarkIdentified();
     }
 }
 
 /// <summary>
-///     疾跑药水 — 临时提高速度
+///     疾跑药水 — 临时提高速度（20 回合）
 /// </summary>
 public sealed class HastePotion : Potion
 {
-    public override string Name => "疾跑药水";
-
+    protected override string TrueName => "疾跑药水";
     public override void Apply(HeroEntity hero)
     {
-        // TODO: 施加疾跑 Buff（速度 × 2）
+        Buff.Prolong<HasteBuff>(hero, 20f);
         MarkIdentified();
     }
 }
@@ -191,11 +204,10 @@ public sealed class HastePotion : Potion
 /// </summary>
 public sealed class MindVisionPotion : Potion
 {
-    public override string Name => "思维诱导药水";
-
+    protected override string TrueName => "思维诱导药水";
     public override void Apply(HeroEntity hero)
     {
-        // TODO: 显示全图怪物位置标记
+        // TODO: 显示全图怪物位置标记（需要视距系统支持）
         MarkIdentified();
     }
 }
@@ -205,11 +217,12 @@ public sealed class MindVisionPotion : Potion
 /// </summary>
 public sealed class ToxicGasPotion : Potion
 {
-    public override string Name => "毒性瓦斯药水";
-
+    protected override string TrueName => "毒性瓦斯药水";
     public override void Apply(HeroEntity hero)
     {
-        // TODO: 在目标位置释放毒气 Blob
+        // 对英雄及其周围造成毒伤害（简化版，需要 Blob 系统支持）
+        int dmg = 3 + hero.Level / 2;
+        hero.Damage(dmg, this);
         MarkIdentified();
     }
 }
@@ -219,11 +232,11 @@ public sealed class ToxicGasPotion : Potion
 /// </summary>
 public sealed class TeleportPotion : Potion
 {
-    public override string Name => "传送药水";
-
+    protected override string TrueName => "传送药水";
     public override void Apply(HeroEntity hero)
     {
-        // TODO: 随机传送到地牢中其他位置
+        // 随机传送（简化版：临时位移，需要地图数据支持）
+        // TODO: 接入地牢地图数据，随机选择一个可通行位置
         MarkIdentified();
     }
 }

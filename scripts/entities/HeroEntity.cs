@@ -3,6 +3,7 @@ using MyShatteredPixelDungeon.scripts.items.weapons;
 using MyShatteredPixelDungeon.scripts.items.armors;
 using MyShatteredPixelDungeon.scripts.items.wands;
 using MyShatteredPixelDungeon.scripts.items.rings;
+using MyShatteredPixelDungeon.scripts.entities.buffs;
 
 namespace MyShatteredPixelDungeon.scripts.entities;
 
@@ -176,7 +177,7 @@ public sealed class HeroEntity : CharEntity
     }
 
     /// <summary>
-    ///     速度（含装备惩罚）
+    ///     速度（含装备惩罚 + Buff 修正）
     /// </summary>
     public override float Speed()
     {
@@ -185,6 +186,13 @@ public sealed class HeroEntity : CharEntity
             speed *= EquippedWeapon.SpeedFactor(Strength);
         if (EquippedArmor != null)
             speed *= EquippedArmor.SpeedFactor(Strength);
+
+        // Buff 修正
+        if (FindBuff<HasteBuff>() != null)
+            speed *= 2f;
+        if (FindBuff<FrostBuff>() != null)
+            speed *= 0.5f;
+
         return speed;
     }
 }

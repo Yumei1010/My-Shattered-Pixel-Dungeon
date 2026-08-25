@@ -18,6 +18,7 @@ public static class ItemAction
     public const string Open = "OPEN";
     public const string Wear = "WEAR";
     public const string Remove = "REMOVE";
+    public const string Drop = "DROP";
 }
 
 /// <summary>
@@ -97,6 +98,7 @@ public abstract class Item
         var actions = new List<string>();
         if (DefaultAction != "") actions.Add(DefaultAction);
         actions.Add(ItemAction.Throw);
+        actions.Add(ItemAction.Drop);
         return actions;
     }
 
