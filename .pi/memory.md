@@ -102,3 +102,31 @@ fafd549  refactor(dungeon): 清理代码质量问题
 - HeapNode 已标注 [Log][ContextAware]
 - inventory_page 目录保持 snake_case 规范
 - 下一步：实现药水/卷轴实际效果，添加背包 UI 页面
+
+## 当前任务 (progress)
+- 背包 UI 页面 InventoryPage 完成（partial class 五文件模式）
+- 物品列表展示（名称/数量/装备标记）
+- 物品详情面板（RichTextLabel）
+- 动作按钮（装备/卸下/使用/投掷）
+- CQRS 事件订阅（InventoryChangedEvent 刷新列表）
+- 场景文件 inventory_page.tscn
+- 构建通过，78 测试通过
+
+## 当前任务 (progress)
+- 药水实际效果：治疗/活力/力量/经验/麻痹/净化 已实现（其余占位 TODO）
+- 卷轴实际效果：鉴定/升级/移除诅咒/恐怖/复仇 已实现（其余占位 TODO）
+- 构建通过，78 测试通过
+
+## 当前任务 (progress)
+- 药水颜色/卷轴名称随机识别系统完成（IdentificationSystem）
+- 药水/卷轴显示名称（未鉴定显示颜色名/标签，已鉴定显示真名）
+- 食物系统与饥饿度联动完成
+
+## 当前任务 (progress)
+- 新增 Buff: InvisibilityBuff/HasteBuff/FrostBuff
+- HeroEntity.Speed() 受 HasteBuff(×2)/FrostBuff(×0.5) 影响
+- 药水效果完善：隐身/火焰/冰冻/疾跑/净化/毒性瓦斯 等
+- 卷轴效果完善：挑战/镜像/迷雾/觉醒/魔法映射/传送 等
+- 添加 GroundItemManager 地面物品管理器（拾取/丢弃/自动拾取）
+- 背包页面添加 Drop 丢弃动作
+- 构建通过，78 测试通过
