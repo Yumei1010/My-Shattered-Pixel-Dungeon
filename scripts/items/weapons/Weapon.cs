@@ -20,6 +20,9 @@ public abstract class Weapon : EquipableItem
     /// <summary>最大伤害（含等级修正）</summary>
     public int DamageMax { get; set; } = 4;
 
+    /// <summary>附魔</summary>
+    public Enchantment? Enchantment { get; set; }
+
     public override bool IsUpgradable => true;
     public override bool IsEnchantable => true;
 

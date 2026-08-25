@@ -19,5 +19,6 @@ public class SystemModule : AbstractModule
         architecture.RegisterSystem(new SettingsSystem());
         architecture.RegisterSystem(new TurnSystem());
         architecture.RegisterSystem(new IntentSystem());
+        architecture.RegisterSystem(new CombatSystem());
     }
 }

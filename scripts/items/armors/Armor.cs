@@ -12,6 +12,9 @@ public abstract class Armor : EquipableItem
     /// <summary>最大减伤</summary>
     public int DamageReductionMax { get; set; }
 
+    /// <summary>雕纹</summary>
+    public Glyph? Glyph { get; set; }
+
     /// <summary>护甲技能（职业专属）</summary>
     public virtual string? SpecialAbility => null;
 
