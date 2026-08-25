@@ -9,4 +9,9 @@ public enum UiKey
     ///     模板主页面
     /// </summary>
     TemplatePage,
+
+    /// <summary>
+    ///     背包页面
+    /// </summary>
+    InventoryPage,
 }

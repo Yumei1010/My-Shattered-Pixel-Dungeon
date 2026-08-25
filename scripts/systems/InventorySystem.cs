@@ -1,6 +1,3 @@
-using GFramework.Core.system;
-using GFramework.Core.extensions;
-using MyShatteredPixelDungeon.scripts.cqrs.inventory.@event;
 using MyShatteredPixelDungeon.scripts.entities;
 using MyShatteredPixelDungeon.scripts.items;
 using MyShatteredPixelDungeon.scripts.items.weapons;
@@ -9,134 +6,32 @@ using MyShatteredPixelDungeon.scripts.items.armors;
 namespace MyShatteredPixelDungeon.scripts.systems;
 
 /// <summary>
-///     背包系统，管理物品拾取/丢弃/使用/装备
+///     背包系统工具类，提供物品拾取/丢弃/使用/装备等静态方法
 /// </summary>
-public sealed class InventorySystem : AbstractSystem
+public static class InventorySystem
 {
-    protected override void OnInit()
-    {
-        // 注册事件处理
-        this.RegisterEvent<ItemPickedUpEvent>(OnItemPickedUp);
-        this.RegisterEvent<ItemDroppedEvent>(OnItemDropped);
-        this.RegisterEvent<ItemUsedEvent>(OnItemUsed);
-        this.RegisterEvent<ItemEquippedEvent>(OnItemEquipped);
-        this.RegisterEvent<ItemUnequippedEvent>(OnItemUnequipped);
-    }
-
-    private void OnItemPickedUp(ItemPickedUpEvent e)
-    {
-        var hero = Actor.All().OfType<HeroEntity>().FirstOrDefault(h => h.Id == e.EntityId);
-        if (hero == null) return;
-
-        // 发送背包变化事件通知 UI 刷新
-        this.SendEvent(new InventoryChangedEvent
-        {
-            EntityId = e.EntityId,
-            ChangeType = "Add",
-            ItemType = e.ItemType,
-            Quantity = e.Quantity
-        });
-    }
-
-    private void OnItemDropped(ItemDroppedEvent e)
-    {
-        var hero = Actor.All().OfType<HeroEntity>().FirstOrDefault(h => h.Id == e.EntityId);
-        if (hero == null) return;
-
-        this.SendEvent(new InventoryChangedEvent
-        {
-            EntityId = e.EntityId,
-            ChangeType = "Remove",
-            ItemType = e.ItemType,
-            Quantity = 0
-        });
-    }
-
-    private void OnItemUsed(ItemUsedEvent e)
-    {
-        this.SendEvent(new InventoryChangedEvent
-        {
-            EntityId = e.EntityId,
-            ChangeType = "Update",
-            ItemType = e.ItemType,
-            Quantity = 0
-        });
-    }
-
-    private void OnItemEquipped(ItemEquippedEvent e)
-    {
-        this.SendEvent(new InventoryChangedEvent
-        {
-            EntityId = e.EntityId,
-            ChangeType = "Update",
-            ItemType = e.ItemType,
-            Quantity = 0
-        });
-    }
-
-    private void OnItemUnequipped(ItemUnequippedEvent e)
-    {
-        this.SendEvent(new InventoryChangedEvent
-        {
-            EntityId = e.EntityId,
-            ChangeType = "Update",
-            ItemType = e.ItemType,
-            Quantity = 0
-        });
-    }
-
     /// <summary>
-    ///     拾取地面物品
+    ///     拾取物品到英雄背包
     /// </summary>
     public static bool PickUpItem(HeroEntity hero, Item item)
     {
         if (hero == null || item == null) return false;
-
         if (item.DoPickUp(hero)) return true;
-
-        if (item.Collect(hero.Inventory))
-        {
-            return true;
-        }
-
-        return false;
+        return item.Collect(hero.Inventory);
     }
 
     /// <summary>
-    ///     丢弃物品到地面
+    ///     从英雄背包丢弃物品
     /// </summary>
     public static void DropItem(HeroEntity hero, Item item, int pos)
     {
         if (hero == null || item == null) return;
-
         item.DoDrop(hero);
         hero.Inventory.Remove(item);
     }
 
     /// <summary>
-    ///     使用物品
-    /// </summary>
-    public static bool UseItem(HeroEntity hero, Item item)
-    {
-        if (hero == null || item == null) return false;
-
-        // 根据物品默认动作执行
-        switch (item.DefaultAction)
-        {
-            case ItemAction.Equip:
-                return EquipItem(hero, item);
-            case ItemAction.Drink:
-            case ItemAction.Eat:
-            case ItemAction.Read:
-                // 消耗品使用
-                return ConsumeItem(hero, item);
-            default:
-                return false;
-        }
-    }
-
-    /// <summary>
-    ///     装备物品
+    ///     装备物品到英雄
     /// </summary>
     public static bool EquipItem(HeroEntity hero, Item item)
     {
@@ -154,12 +49,37 @@ public sealed class InventorySystem : AbstractSystem
     }
 
     /// <summary>
-    ///     消耗物品
+    ///     消耗物品（药水/卷轴/食物）
     /// </summary>
     public static bool ConsumeItem(HeroEntity hero, Item item)
     {
-        // 从背包移除
+        if (item == null) return false;
         item.Detach(hero.Inventory);
         return true;
+    }
+
+    /// <summary>
+    ///     使用物品（根据默认动作分发）
+    /// </summary>
+    public static bool UseItem(HeroEntity hero, Item item)
+    {
+        if (hero == null || item == null) return false;
+
+        return item.DefaultAction switch
+        {
+            ItemAction.Equip => EquipItem(hero, item),
+            ItemAction.Drink or ItemAction.Eat or ItemAction.Read => ConsumeItem(hero, item),
+            _ => false
+        };
+    }
+
+    /// <summary>
+    ///     获取金币总量
+    /// </summary>
+    public static int GetTotalGold(HeroEntity hero)
+    {
+        if (hero == null) return 0;
+        var gold = hero.Inventory.Find<Gold>();
+        return gold?.Quantity ?? 0;
     }
 }
