@@ -125,6 +125,16 @@ public abstract class CharEntity : Actor
     public bool IsAlive => IsActive && Hp > 0;
 
     /// <summary>
+    ///     到目标格子的距离
+    /// </summary>
+    public int DistanceTo(int pos) => Math.Abs(Pos - pos);
+
+    /// <summary>
+    ///     是否能攻击到目标
+    /// </summary>
+    public virtual bool CanAttack(CharEntity target) => DistanceTo(target.Pos) <= 1;
+
+    /// <summary>
     ///     攻击技能
     /// </summary>
     public virtual int AttackSkill(CharEntity target) => 0;
