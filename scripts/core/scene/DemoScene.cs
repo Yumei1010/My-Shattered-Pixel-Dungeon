@@ -30,7 +30,7 @@ public partial class DemoScene : Node2D
     // 游戏状态
     private DungeonData? _data;
     private HeroEntity? _hero;
-    private readonly List<(int Pos, string Glyph, Color Color)> _entities = new();
+    private readonly List<(int Pos, EntityKind Kind)> _entities = new();
 
     // 图块尺寸
     private const int TileSize = 16;
@@ -159,10 +159,10 @@ public partial class DemoScene : Node2D
     {
         _entities.Clear();
         if (_hero != null)
-            _entities.Add((_hero.Pos, "🧙", new Color(0.2f, 0.6f, 1.0f)));
+            _entities.Add((_hero.Pos, EntityKind.Hero));
 
         foreach (var mob in Actor.All().OfType<MobEntity>().Where(m => m.IsAlive))
-            _entities.Add((mob.Pos, "🐀", new Color(1.0f, 0.3f, 0.2f)));
+            _entities.Add((mob.Pos, EntityKind.Mob));
     }
 
     /// <summary>
@@ -201,29 +201,44 @@ public partial class DemoScene : Node2D
             DrawRect(rect, color);
         }
 
-        // 地面物品
+        // 地面物品（用不同颜色小方块区分类型）
         foreach (var heap in GroundItemManager.AllHeaps)
         {
             var p = _data.CellToPoint(heap.Pos);
-            var label = heap.TopItem switch
+            var rect = new Rect2(p.X * TileSize + 3, p.Y * TileSize + 63, 10, 10);
+            Color itemColor = heap.TopItem switch
             {
-                _ when heap.TopItem is Gold => "💰",
-                _ when heap.TopItem is Potion => "🧪",
-                _ when heap.TopItem is Scroll => "📜",
-                _ when heap.TopItem is Food => "🍖",
-                _ => "📦"
+                Gold => new Color(1f, 0.85f, 0.2f),      // 金币-黄
+                Potion => new Color(0.3f, 0.9f, 0.4f),    // 药水-绿
+                Scroll => new Color(0.9f, 0.9f, 0.85f),   // 卷轴-白
+                Food => new Color(0.7f, 0.4f, 0.2f),      // 食物-棕
+                _ => new Color(0.6f, 0.6f, 0.8f)           // 其他-蓝灰
             };
-            DrawString(ThemeDB.FallbackFont, new Vector2(p.X * TileSize + 2, p.Y * TileSize + 76),
-                label, HorizontalAlignment.Left, TileSize - 4, 14, Color.FromHtml("#e8e8e8"));
+            DrawRect(rect, itemColor);
         }
 
-        // 实体（英雄/怪物）
-        foreach (var (pos, glyph, _) in _entities)
+        // 实体（英雄/怪物）用彩色方块
+        foreach (var (pos, kind) in _entities)
         {
             var p = _data.CellToPoint(pos);
-            DrawString(ThemeDB.FallbackFont, new Vector2(p.X * TileSize, p.Y * TileSize + 74),
-                glyph, HorizontalAlignment.Left, TileSize, 16, Color.FromHtml("#e8e8e8"));
+            var rect = new Rect2(p.X * TileSize + 2, p.Y * TileSize + 62, 12, 12);
+            Color c = kind switch
+            {
+                EntityKind.Hero => new Color(0.2f, 0.6f, 1.0f),   // 英雄-蓝
+                EntityKind.Mob => new Color(1.0f, 0.3f, 0.2f),    // 怪物-红
+                _ => new Color(1f, 1f, 1f)
+            };
+            DrawRect(rect, c);
+            // 轮廓
+            DrawRect(rect, new Color(1f, 1f, 1f, 0.5f), false, 1f);
         }
+    }
+
+    /// <summary>实体类型</summary>
+    private enum EntityKind
+    {
+        Hero,
+        Mob
     }
 
     public override void _Input(InputEvent @event)

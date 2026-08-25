@@ -139,3 +139,11 @@ fafd549  refactor(dungeon): 清理代码质量问题
 - DemoPage 简易测试页面（生成物品/装备/背包/战斗/识别）
 - 所有 .uid 文件对齐
 - 构建通过，78 测试通过
+
+## 当前任务 (progress)
+- 可玩 Demo 场景完成 ✅
+- DemoScene.cs: 地牢渲染(_Draw 免 TileSet)/英雄移动/战斗/拾取/怪物追击
+- main.tscn 直接包含 DemoScene，IsDev 模式跳过状态机直接运行
+- 操作: WASD 移动 | 空格等待 | H 喝药水 | R 重置
+- GameState/AppState 状态机已注册但 Dev 模式不触发
+- 构建通过，78 测试通过
