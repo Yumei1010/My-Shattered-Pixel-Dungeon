@@ -114,20 +114,27 @@ public partial class DemoScene : Node2D
         if (_data == null) return;
         var entrance = _data.CellToPoint(_data.Entrance);
 
-        for (int dx = -5; dx <= 5; dx++)
+        // 只生成少量怪物（4 只），分散在距入口 7~15 格的远处
+        const int targetCount = 4;
+        int spawned = 0;
+        const int maxAttempts = 500;
+
+        for (int attempt = 0; spawned < targetCount && attempt < maxAttempts; attempt++)
         {
-            for (int dy = -5; dy <= 5; dy++)
+            // 随机方向 + 随机较远距离
+            int ang = Random.Shared.Next(360);
+            double rad = ang * Math.PI / 180.0;
+            int dist = Random.Shared.Next(7, 16);
+            int x = entrance.X + (int)Math.Round(Math.Cos(rad) * dist);
+            int y = entrance.Y + (int)Math.Round(Math.Sin(rad) * dist);
+
+            if (!_data.InsideMap(x, y)) continue;
+            int cell = _data.PointToCell(new Point(x, y));
+            if (_data.Passable[cell] && CharEntity.FindAt(cell) == null)
             {
-                if (dx == 0 && dy == 0) continue;
-                int x = entrance.X + dx;
-                int y = entrance.Y + dy;
-                if (!_data.InsideMap(x, y)) continue;
-                int cell = _data.PointToCell(new Point(x, y));
-                if (_data.Passable[cell] && CharEntity.FindAt(cell) == null)
-                {
-                    var rat = new Rat { Pos = cell };
-                    Actor.Add(rat);
-                }
+                var rat = new Rat { Pos = cell };
+                Actor.Add(rat);
+                spawned++;
             }
         }
     }
@@ -350,7 +357,7 @@ public partial class DemoScene : Node2D
                 var result = CombatSystem.PerformAttack(mob, _hero);
                 if (result.Hit) Log($"💥 Rat 攻击你 → {result.Damage} 伤害");
             }
-            else if (dist <= 10)
+            else if (dist <= 5)
             {
                 int dx = Math.Sign((_hero.Pos % _data.Width) - (mob.Pos % _data.Width));
                 int dy = Math.Sign((_hero.Pos / _data.Width) - (mob.Pos / _data.Width));

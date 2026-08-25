@@ -154,17 +154,23 @@ public sealed class HeroEntity : CharEntity
     }
 
     /// <summary>
-    ///     攻击技能（含武器修正）
+    ///     攻击技能（10 + 等级×2，含武器修正）
     /// </summary>
     public override int AttackSkill(CharEntity target)
     {
-        int skill = base.AttackSkill(target);
+        int skill = 10 + Level * 2;
         if (EquippedWeapon != null && target != null)
         {
             skill = (int)(skill * EquippedWeapon.AccuracyFactor(Strength));
         }
+        // 防御技能低的目标更容易被命中（影响较小）
         return skill;
     }
+
+    /// <summary>
+    ///     防御技能（5 + 等级）
+    /// </summary>
+    public override int DefenseSkill(CharEntity enemy) => 5 + Level;
 
     /// <summary>
     ///     护甲减伤（含护甲修正）
